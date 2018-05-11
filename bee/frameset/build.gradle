@@ -2,22 +2,38 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        multiDexEnabled true
+        ndk {
+            moduleName "photoBlur"    //lib的名称，对应LOCAL_MODULE   System.loadLibrary("photoBlur")
+            //stl "stlport_shared"    //对应APP_STL
+            //ldLibs "log", "z", "m"  //链接时使用到的库，对应LOCAL_LDLIBS
+            //cFlags 编译gcc的flag，对应LOCAL_CFLAGS
+            //abiFilters "arm64-v8a","armeabi", "armeabi-v7a","mips","mips64", "x86","x86_64"//cpu的类型 没有配置ndk环境变量这样是生成不了因为找不到ndk-build命令
+        }
     }
-    dataBinding{enabled true}//mvvm架构
+    dataBinding { enabled true }//mvvm架构
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+//    sourceSets.main {//生成so用的
+//        jniLibs.srcDirs = ['src/main/jni', 'src/main/cpp']//生成so
+//        jni.srcDirs = [] //屏蔽掉默认的jni编译生成过程
+//    }//旧方式
+    sourceSets {
+        main {//AndroidStudio如何引入so包 https://blog.csdn.net/aplixy/article/details/51592035
+            jniLibs.srcDirs = ['src/main/libs']//生成so换成jniLibs.srcDirs = ['src/main/jni', 'src/main/cpp']
+            jni.srcDirs = []            //屏蔽掉默认的jni编译生成过程
         }
     }
 }

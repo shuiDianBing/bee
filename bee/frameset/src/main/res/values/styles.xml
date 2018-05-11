@@ -1,0 +1,6 @@
+<resources>
+    <style name="selectWhiteLine" parent="Theme.AppCompat.Light">适用editText下划线
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <item name="colorControlActivated">@android:color/white</item>
+    </style>
+</resources>

@@ -3,7 +3,7 @@ package com.stynet.frameset.mvpvm.viewLayer.activity;
 import android.databinding.ViewDataBinding;
 
 import com.stynet.frameset.FrameActivity;
-import com.stynet.frameset.mvpvm.viewModelLayer.MvvmViewModel;
+import com.stynet.frameset.mvpvm.viewModelLayer.MvpvmViewModel;
 
 /**
  * Created by xx on 2018/5/4.
@@ -11,5 +11,5 @@ import com.stynet.frameset.mvpvm.viewModelLayer.MvvmViewModel;
  * Android MVPVM架构实践 https://blog.csdn.net/myterabithia/article/details/53783600
  */
 
-public abstract class MvpvmActivity<Presemter extends MvvmViewModel,DataBind extends ViewDataBinding> extends FrameActivity{
+public abstract class MvpvmActivity<Presemter extends MvpvmViewModel,DataBinding extends ViewDataBinding> extends FrameActivity{
 }

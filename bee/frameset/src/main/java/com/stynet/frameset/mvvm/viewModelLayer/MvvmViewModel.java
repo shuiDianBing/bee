@@ -2,6 +2,7 @@ package com.stynet.frameset.mvvm.viewModelLayer;
 
 import com.stynet.frameset.FrameModel;
 import com.stynet.frameset.FramePresenter;
+import com.stynet.frameset.mvpvm.modelLayer.MvpvmModel;
 import com.stynet.frameset.mvvm.modelLayer.MvvmModel;
 
 /**
