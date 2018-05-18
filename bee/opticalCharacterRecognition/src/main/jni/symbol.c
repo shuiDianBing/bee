@@ -13,7 +13,7 @@
  */
 JNIEXPORT void JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecognition_zbar_Symbol_init
         (JNIEnv *env, jclass cls){
-    setSymbolPeer();//Symbol_peer = (*env)->GetFieldID(env, cls, "peer", "J");
+    setSymbolPeer(env,cls);//Symbol_peer = (*env)->GetFieldID(env, cls, "peer", "J");
 }
 
 /*
@@ -44,7 +44,7 @@ JNIEXPORT jint JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecognition_
  */
 JNIEXPORT jint JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecognition_zbar_Symbol_getConfigMask
         (JNIEnv *env, jobject obj){
-    return zbar_symbol_get_configs(getSymbolPeer(obj));//(GET_PEER(Symbol, obj));
+    return zbar_symbol_get_configs(getSymbolPeer(env,obj));//(GET_PEER(Symbol, obj));
 }
 
 /*
@@ -62,7 +62,7 @@ JNIEXPORT jint JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecognition_
  */
 JNIEXPORT jstring JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecognition_zbar_Symbol_getData
         (JNIEnv *env, jobject obj){
-    const char *data = zbar_symbol_get_data(getSymbolPeer(obj));//(GET_PEER(Symbol, obj));
+    const char *data = zbar_symbol_get_data(getSymbolPeer(env,obj));//(GET_PEER(Symbol, obj));
     return(*env)->NewStringUTF(env, data);
 }
 
@@ -73,7 +73,7 @@ JNIEXPORT jstring JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecogniti
  */
 JNIEXPORT jbyteArray JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecognition_zbar_Symbol_getDataBytes
         (JNIEnv *env, jobject obj){
-    const zbar_symbol_t *zsym = getSymbolPeer(obj);//GET_PEER(Symbol, obj);
+    const zbar_symbol_t *zsym = getSymbolPeer(env,obj);//GET_PEER(Symbol, obj);
     const void *data = zbar_symbol_get_data(zsym);
     unsigned long datalen = zbar_symbol_get_data_length(zsym);
     if(!data || !datalen)
@@ -92,7 +92,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecogn
  */
 JNIEXPORT jint JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecognition_zbar_Symbol_getQuality
         (JNIEnv *env, jobject obj){
-    return zbar_symbol_get_quality(getSymbolPeer(obj));//(GET_PEER(Symbol, obj));
+    return zbar_symbol_get_quality(getSymbolPeer(env,obj));//(GET_PEER(Symbol, obj));
 }
 
 /*
@@ -102,7 +102,7 @@ JNIEXPORT jint JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecognition_
  */
 JNIEXPORT jint JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecognition_zbar_Symbol_getCount
         (JNIEnv *env, jobject obj){
-    return zbar_symbol_get_count(getSymbolPeer(obj));//(GET_PEER(Symbol, obj));
+    return zbar_symbol_get_count(getSymbolPeer(env,obj));//(GET_PEER(Symbol, obj));
 }
 
 /*

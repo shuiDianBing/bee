@@ -53,7 +53,7 @@ JNIEXPORT void JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecognition_
  */
 JNIEXPORT void JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecognition_zbar_ImageScanner_setConfig
 (JNIEnv *env, jobject obj, jint symbology, jint config, jint value){
-    zbar_image_scanner_set_config(getImageScannerPeer(obj),symbology,config,value);//(GET_PEER(ImageScanner, obj), symbology, config, value);
+    zbar_image_scanner_set_config(getImageScannerPeer(env,obj),symbology,config,value);//(GET_PEER(ImageScanner, obj), symbology, config, value);
 }
 
 /*
@@ -103,7 +103,7 @@ JNIEXPORT jlong JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecognition
 JNIEXPORT jint JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecognition_zbar_ImageScanner_scanImage
         (JNIEnv *env, jobject obj, jobject image){
     zbar_image_scanner_t *zscn = getImageScannerPeer(env,obj);//GET_PEER(ImageScanner, obj);
-    zbar_image_t *zimg = getImagePeer(image);//GET_PEER(Image, image);
+    zbar_image_t *zimg = getImagePeer(env,image);//GET_PEER(Image, image);
     int n = zbar_scan_image(zscn, zimg);
     if(0> n)
         throw_exc(env, "java/lang/UnsupportedOperationException", "unsupported image format");

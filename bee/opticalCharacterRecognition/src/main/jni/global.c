@@ -6,10 +6,6 @@
 #include <assert.h>
 #include <zbar.h>
 #include "global.h"
-static jfieldID SymbolSet_peer;
-static jfieldID Symbol_peer;
-static jfieldID Image_peer, Image_data;
-static jfieldID ImageScanner_peer;
 
 static struct Status status;
 void setSymbolSetPeer(JNIEnv *env, jclass cls){
@@ -34,7 +30,7 @@ void setImageData(JNIEnv *env, jclass cls){
     Image_data = (*env)->GetFieldID(env,cls,"data","Ljava/lang/Object;");
 }
 jfieldID getImageData(JNIEnv *env,jobject obj){
-    return GET_PEER(ImageData,obj);
+    return NULL;//GET_PEER(ImageData,obj);
 }
 void setImageScannerPeer(JNIEnv *env, jclass cls){
     ImageScanner_peer = (*env)->GetFieldID(env, cls, "peer", "J");

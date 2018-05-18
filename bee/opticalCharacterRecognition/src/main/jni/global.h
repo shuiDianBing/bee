@@ -5,6 +5,10 @@
 #ifndef BEE_GLOBAL_GLOBAL_H
 #define BEE_GLOBAL_GLOBAL_H
 
+static jfieldID SymbolSet_peer;
+static jfieldID Symbol_peer;
+static jfieldID Image_peer, Image_data;
+static jfieldID ImageScanner_peer;
 struct Status{
     int symbolSetCreate, symbolSetDestroy;
     int symbolCreate, symbolDestroy;
