@@ -56,6 +56,7 @@ public class LauncherActivity extends AppCompatActivity {
             @Override
             public void onCompleted() {
                 startActivity(new Intent(LauncherActivity.this, null != getSharedPreferences(SigninActivity.SIGNIN, Context.MODE_PRIVATE).getString(SigninActivity.ACCOUNT,null)? HomeActivity.class : SigninActivity.class));
+                finish();
             }
 
             @Override

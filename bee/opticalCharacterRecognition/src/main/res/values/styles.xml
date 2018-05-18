@@ -1,0 +1,20 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorAccent">@android:color/white</item>
+    </style>
+    // Activity 设置style 改变为dialog后设置不显示title   http://blog.csdn.net/soslinken/article/details/56017326
+    <style name="ToolbarTheme" parent="AppTheme">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <!--<item name="textColorPrimary">@android:color/white</item>没有这条属性error: style attribute 'attr/textColorPrimary (aka com.stynet.bee:attr/textColorPrimary)' not found.	-->
+        <!--<item name="android:textColor">@color/white</item>-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+</resources>

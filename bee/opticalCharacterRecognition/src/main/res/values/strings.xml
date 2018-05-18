@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">opticalCharacterRecognition</string>
+    <string name="scanQrCode">扫码</string>
+    <string name="photo">图库</string>
+    <string name="lighting">照明</string>
+    <string name="changeCamera">切换相机</string>
+    <string name="permission_cancel">Cancel</string>
+    <string name="permission_message_permission_failed">We need some permissions are you refuse or system error, would you please go to Settings page manual authorization, otherwise the function to use!</string>
+    <string name="permission_message_permission_rationale">You have rejected us for authorization, would you please authorize, otherwise the function to use!</string>
+    <string name="permission_resume">Resume</string>
+    <string name="permission_setting">Setting</string>
+    <string name="permission_title_permission_failed">Permission apply failure</string>
+    <string name="permission_title_permission_rationale">Permission denied</string>
+    <string name="camera_failure">Connection failed</string>
+    <string name="camera_hint">Your camera may be occupied by other applications, please check and use.</string>
+    <string name="ok">OK</string>
 </resources>

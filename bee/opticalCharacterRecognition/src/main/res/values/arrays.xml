@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="scanCodeIcons">
+        <item>@drawable/ic_flashlight</item>
+        <item>@drawable/ic_change</item>
+    </integer-array>
+    <integer-array name="scanText">
+        <item>@string/lighting</item>
+        <item>@string/changeCamera</item>
+    </integer-array>
+</resources>
