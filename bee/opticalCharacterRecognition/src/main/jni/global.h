@@ -11,26 +11,23 @@ struct Status{
     int imageCreate, imageDestroy;
     int imageScannerCreate, imageScannerDestroy;
 };
-#define PEER_CAST(l) \
-    ((void*)(uintptr_t)(l))
-
-#define GET_PEER(c, o) \
-    PEER_CAST((*env)->GetLongField(env, (o), c ## _peer))
+#define PEER_CAST(l) ((void*)(uintptr_t)(l))
+#define GET_PEER(c, o) PEER_CAST((*env)->GetLongField(env, (o), c ## _peer))
 #define VALIDATE_CROP(u, m) \
     if((u) < 0) {           \
         (m) += (u);         \
         (u) = 0;            \
     }
 void setSymbolSetPeer(JNIEnv *env, jclass cls);
-jfieldID getSymbolSetPeer(JNIEnv,jobject);
+jfieldID getSymbolSetPeer(JNIEnv*,jobject);
 void setSymbolPeer(JNIEnv *env, jclass cls);
-jfieldID getSymbolPeer(JNIEnv,jobject);
+jfieldID getSymbolPeer(JNIEnv*,jobject);
 void setImagePeer(JNIEnv *env, jclass cls);
-jfieldID getImagePeer(JNIEnv,jobject);
+jfieldID getImagePeer(JNIEnv*,jobject);
 void setImageData(JNIEnv *env, jclass cls);
-jfieldID getImageData(JNIEnv,jobject);
+jfieldID getImageData(JNIEnv*,jobject);
 void setImageScannerPeer(JNIEnv *env, jclass cls);
-jfieldID getImageScannerPeer(JNIEnv,jobject);
+jfieldID getImageScannerPeer(JNIEnv*,jobject);
 struct Status getStatus();
 void addImageCreate();
 void addImageDestroy();
