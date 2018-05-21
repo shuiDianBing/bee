@@ -63,7 +63,7 @@ public class SymbolIterator
             current = new Symbol(sym);
         else
             current = null;
-        return (result);
+        return result;
     }
 
     /**

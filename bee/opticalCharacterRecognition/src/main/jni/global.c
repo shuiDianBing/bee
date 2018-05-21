@@ -30,7 +30,7 @@ void setImageData(JNIEnv *env, jclass cls){
     Image_data = (*env)->GetFieldID(env,cls,"data","Ljava/lang/Object;");
 }
 jfieldID getImageData(JNIEnv *env,jobject obj){
-    return NULL;//GET_PEER(ImageData,obj);
+    return Image_data;//GET_PEER(ImageData,obj);
 }
 void setImageScannerPeer(JNIEnv *env, jclass cls){
     ImageScanner_peer = (*env)->GetFieldID(env, cls, "peer", "J");

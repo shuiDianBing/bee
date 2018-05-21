@@ -9,6 +9,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,12 +20,12 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.stynet.shuidianbing.opticalcharacterrecognition.CameraPreview;
 import com.stynet.shuidianbing.opticalcharacterrecognition.R;
@@ -32,6 +33,7 @@ import com.stynet.shuidianbing.opticalcharacterrecognition.ScanCallback;
 import com.stynet.shuidianbing.opticalcharacterrecognition.permission.AndroidPermission;
 import com.stynet.shuidianbing.opticalcharacterrecognition.permission.PermissionListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +78,24 @@ public class ScanCodeActivity extends AppCompatActivity {
         recycler.setItemAnimator(new DefaultItemAnimator());
         recycler.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL));
         //recycler.setAdapter(new ScanCodeSelectAdapter(initScanCodeSelect(R.array.scanCodeIcons,R.array.scanText),R.layout.item_up_image_below_text, ContextCompat.getColor(this,android.R.color.transparent)));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(RESULT_OK == resultCode)
+            switch (requestCode){
+                case PHOTO:
+                    if(null!= data &&null!= data.getData())
+                        try {
+                            String result = previewView.scanPhoto(MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData()));
+                            Log.d("ScanCodeActivity","onActivityResult:result="+result);
+                        }catch (IOException e){
+                            e.printStackTrace();
+                        }
+                    break;
+                    default:break;
+            }
     }
 
     @Override

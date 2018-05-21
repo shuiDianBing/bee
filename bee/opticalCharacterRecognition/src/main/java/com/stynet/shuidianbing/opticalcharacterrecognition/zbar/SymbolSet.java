@@ -30,8 +30,7 @@ package com.stynet.shuidianbing.opticalcharacterrecognition.zbar;
  * or a composite symbol.
  */
 @SuppressWarnings("JniMissingFunction")
-public class SymbolSet
-        extends java.util.AbstractCollection<Symbol> {
+public class SymbolSet extends java.util.AbstractCollection<Symbol> {
     /**
      * C pointer to a zbar_symbol_set_t.
      */
@@ -78,7 +77,7 @@ public class SymbolSet
         if (sym == 0)
             return (new SymbolIterator(null));
 
-        return (new SymbolIterator(new Symbol(sym)));
+        return new SymbolIterator(new Symbol(sym));
     }
 
     /**

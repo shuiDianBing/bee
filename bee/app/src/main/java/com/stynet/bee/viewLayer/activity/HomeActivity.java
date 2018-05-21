@@ -3,7 +3,9 @@ package com.stynet.bee.viewLayer.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.stynet.bee.R;
 import com.stynet.bee.presenterLayer.HomeVm;
 import com.stynet.bee.HomeBinding;

@@ -4,6 +4,7 @@
 #include <inttypes.h>
 #include <assert.h>
 #include <zbar.h>
+#include <android/log.h>
 #include "global.h"
 #include "image.h"
 /*
@@ -56,14 +57,11 @@ static inline uint32_t format_to_fourcc(JNIEnv *env, jstring format) {
     uint32_t fourcc = 0;
     int i;
     for(i = 0; i < n; i++) {
-        if(fmtstr[i] < ' ' || 'Z' < fmtstr[i] ||
-           ('9' < fmtstr[i] && fmtstr[i] < 'A') ||
-           (' ' < fmtstr[i] && fmtstr[i] < '0'))
+        if(fmtstr[i] < ' ' || 'Z' < fmtstr[i] || ('9' < fmtstr[i] && fmtstr[i] < 'A') || (' ' < fmtstr[i] && fmtstr[i] < '0'))
             goto invalid;
         fourcc |= ((uint32_t)fmtstr[i]) << (8 * i);
     }
     return fourcc;
-
     invalid:throw_exc(env, "java/lang/IllegalArgumentException", "invalid format fourcc");
     return 0;
 }
@@ -272,13 +270,11 @@ JNIEXPORT jbyteArray JNICALL Java_com_stynet_shuidianbing_opticalcharacterrecogn
 }
 
 static JavaVM *jvm = NULL;
-JNIEXPORT jint JNICALL
-JNI_OnLoad (JavaVM *_jvm, void *reserved) {
+JNIEXPORT jint JNICALL JNI_OnLoad (JavaVM *_jvm, void *reserved) {
     jvm = _jvm;
-    return(JNI_VERSION_1_2);
+    return JNI_VERSION_1_2;
 }
-JNIEXPORT void JNICALL
-JNI_OnUnload (JavaVM *_jvm, void *reserved) {
+JNIEXPORT void JNICALL JNI_OnUnload (JavaVM *_jvm, void *reserved) {
     assert(stats.SymbolSet_create == stats.SymbolSet_destroy);
     assert(stats.Symbol_create == stats.Symbol_destroy);
     assert(stats.Image_create == stats.Image_destroy);
@@ -319,7 +315,8 @@ static void Image_cleanupByteArray (zbar_image_t *zimg) {
 static inline void Image_setData (JNIEnv *env, jobject obj, jbyteArray data, void *raw, unsigned long rawlen, zbar_image_cleanup_handler_t *cleanup) {
     if (!data)
         cleanup = NULL;
-    (*env)->SetObjectField(env, obj, Image_data, data);
+    (*env)->SetObjectField(env, obj, getImageData(env,obj), data);
+    //__android_log_print(ANDROID_LOG_DEBUG,"image","Image_setData:1");
     zbar_image_t *zimg = getImagePeer(env,obj);//GET_PEER(Image, obj);
     zbar_image_set_data(zimg, raw, rawlen, cleanup);
     zbar_image_set_userdata(zimg, (*env)->NewGlobalRef(env, data));

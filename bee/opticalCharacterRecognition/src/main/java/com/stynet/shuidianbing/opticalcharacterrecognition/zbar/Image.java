@@ -188,7 +188,7 @@ public class Image {
      * Retrieve the decoded results associated with this image.
      */
     public SymbolSet getSymbols() {
-        return (new SymbolSet(getSymbols(peer)));
+        return new SymbolSet(getSymbols(peer));
     }
 
     private native long getSymbols(long peer);

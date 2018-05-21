@@ -1,6 +1,7 @@
 package com.stynet.shuidianbing.opticalcharacterrecognition;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
@@ -26,6 +27,13 @@ public class CameraPreview extends FrameLayout implements SurfaceHolder.Callback
         super(context, attrs, defStyleAttr);
         cameraManager = new CameraManager();
         cameraScanAnalysis = new CameraScanAnalysis();
+    }
+    /**
+     * @param bitmap 扫描图片
+     * @return result 解析的结果
+     */
+    public String scanPhoto(Bitmap bitmap) {
+        return cameraScanAnalysis.scanPhoto(bitmap);
     }
 
     /**

@@ -6,7 +6,9 @@ obj/local/mips64/objs/zbar/image.o: jni/image.c \
  E:/ndk/android-ndk-r10e/platforms/android-21/arch-mips64/usr/include/sys/cdefs_elf.h \
  E:/ndk/android-ndk-r10e/platforms/android-21/arch-mips64/usr/include/android/api-level.h \
  E:/ndk/android-ndk-r10e/platforms/android-21/arch-mips64/usr/include/assert.h \
- jni/include/zbar.h jni/global.h \
+ jni/include/zbar.h \
+ E:/ndk/android-ndk-r10e/platforms/android-21/arch-mips64/usr/include/android/log.h \
+ jni/global.h \
  E:/ndk/android-ndk-r10e/platforms/android-21/arch-mips64/usr/include/jni.h \
  jni/image.h
 
@@ -25,6 +27,8 @@ E:/ndk/android-ndk-r10e/platforms/android-21/arch-mips64/usr/include/android/api
 E:/ndk/android-ndk-r10e/platforms/android-21/arch-mips64/usr/include/assert.h:
 
 jni/include/zbar.h:
+
+E:/ndk/android-ndk-r10e/platforms/android-21/arch-mips64/usr/include/android/log.h:
 
 jni/global.h:
 
