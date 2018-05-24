@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.stynet.shuidianbing.opticalcharacterrecognition.zbar.Config;
 import com.stynet.shuidianbing.opticalcharacterrecognition.zbar.Image;
@@ -15,7 +14,7 @@ import com.stynet.shuidianbing.opticalcharacterrecognition.zbar.Symbol;
 import com.stynet.shuidianbing.opticalcharacterrecognition.zbar.SymbolSet;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Iterator;
+import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 /**
@@ -57,22 +56,21 @@ class CameraScanAnalysis implements Camera.PreviewCallback {
         if (allowAnalysis) {
             allowAnalysis = false;
             Camera.Size size = camera.getParameters().getPreviewSize();
-            final Image barcode = new Image(size.width, size.height, "Y800");//Y800咱不知干啥用的
+            final Image barcode = new Image(size.width, size.height, "Y800");//Y800不知干啥用的
             barcode.setData(data);
             // barcode.setCrop(startX, startY, width, height);
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
-                    int result = imageScanner.scanImage(barcode);
-                    String resultStr = null;
-                    if (0!= result) {
+                    String result = null;
+                    if (0!= imageScanner.scanImage(barcode)) {
                         SymbolSet symSet = imageScanner.getResults();
                         for (Symbol sym : symSet)
-                            resultStr = sym.getData();
+                            result = sym.getData();
                     }
-                    if (!TextUtils.isEmpty(resultStr)) {
+                    if (!TextUtils.isEmpty(result)) {
                         Message message = handler.obtainMessage();
-                        message.obj = resultStr;
+                        message.obj = result;
                         message.sendToTarget();
                     } else
                         allowAnalysis = true;
@@ -81,47 +79,54 @@ class CameraScanAnalysis implements Camera.PreviewCallback {
         }
     }
     /**
+     * 二维码扫描的坑：本地图片二维码扫描的优化（zxing和zbar）https://www.imooc.com/article/22919?block_id=tuijian_wz
+     * Android开源库之使用ZBar开源库实现二维码功能 https://blog.csdn.net/super_spy/article/details/72783082?locationNum=6&fps=1
+     * Zbar扫码（摄像头+本地图片+6.0权限） https://blog.csdn.net/chiceT/article/details/53914074
+     * 将bitmap里得到的argb数据转成yuv420sp格式
      * @param width
      * @param height
      * @return result 解析的结果
-     * 二维码扫描的坑：本地图片二维码扫描的优化（zxing和zbar）https://www.imooc.com/article/22919?block_id=tuijian_wz
-     * 将bitmap里得到的argb数据转成yuv420sp格式
      * */
-    private String scanResult(int width,int height,byte[]data) {
+    private String decodeBarcode(int width,int height,byte[]data) {
         final Image barcode = new Image(width, height, "Y800");
         barcode.setData(data);
-        imageScanner.scanImage(barcode);
-        SymbolSet symbols = barcode.getSymbols();
-        StringBuilder sb = new StringBuilder();
-        Iterator<Symbol> iterator = symbols.iterator();
-        while(iterator.hasNext())
-            sb.append(iterator.next().getData());
-        Log.d("CameraScanAnalysis","scanResult:"+sb);
-        return sb.toString();
+        String result =null;
+        if(0!= imageScanner.scanImage(barcode)) {
+            SymbolSet symbolSet = imageScanner.getResults();
+            for(Symbol symbol : symbolSet)
+                result = symbol.getData();
+        }
+        if(!TextUtils.isEmpty(result))
+            try {
+                return new String(result.getBytes("shift_JIS"),"utf-8");//将‘Shift_JIS’编码格式转成‘utf-8
+            }catch (UnsupportedEncodingException e){
+                e.printStackTrace();//识别结果不是‘Shift_JIS’编码格式
+            }
+        return result;
     }
-    /**
-     * @param bitmap 扫描图片
-     * @return result 解析的结果
-     */
     public String scanPhoto(Bitmap bitmap){
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
-        return scanResult(bitmap.getWidth(),bitmap.getHeight(),byteArrayOutputStream.toByteArray());
-        //解析二维码图片
-//        int width = bitmap.getWidth();
-//        int height = bitmap.getHeight();
-//        int[] argb = new int[width * height];
-//        bitmap.getPixels(argb,0,width,0,0,width,height);
-//        byte[] yuv = new byte[width * height + ((0== width %2? width : width + 1) * (0== height %2? height : height +1))/2];
-//        encodeYUV420SP(yuv,argb,width,height);
-//        bitmap.recycle();
-//        scanResult(width,height,yuv);
+        //ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        //bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+        //return decodeBarcode(bitmap.getWidth(),bitmap.getHeight(),byteArrayOutputStream.toByteArray());
+        //正确解析二维码图片,先将argb转换yuv格式
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int[] argb = new int[width * height];
+        bitmap.getPixels(argb,0,width,0,0,width,height);
+        byte[] yuv = new byte[width * height + ((0== width %2? width : width + 1) * (0== height %2? height : height +1))/2];
+        encodeYUV420SP(yuv,argb,width,height);
+        bitmap.recycle();
+        return decodeBarcode(width,height,yuv);
     }
     /**
+     * 详解YUV420数据格式 https://www.cnblogs.com/samaritan/p/YUV.html
+     * 图文详解YUV420数据格式 https://www.cnblogs.com/Sharley/p/5595768.html
      * 将bitmap里得到的argb数据转成yuv420sp格式
      * 这个yuv420sp数据就可以直接传给MediaCodec, 通过AvcEncoder间接进行编码
-     * * @param yuv420sp 用来存放yuv429sp数据 * @param argb 传入argb数据
-     * @param width bmpWidth * @param height bmpHeight
+     * @param yuv420sp 用来存放yuv429sp数据
+     * @param argb 传入argb数据
+     * @param width width
+     * @param height height
      * */
     private void encodeYUV420SP(byte[] yuv420sp, int[] argb, int width, int height) {
         final int frameSize = width * height;// 帧图片的像素大小

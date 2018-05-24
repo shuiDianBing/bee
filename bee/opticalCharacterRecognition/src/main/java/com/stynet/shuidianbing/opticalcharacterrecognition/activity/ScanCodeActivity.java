@@ -42,6 +42,7 @@ import java.util.List;
  */
 
 public class ScanCodeActivity extends AppCompatActivity {
+    public static final String TITLE = "title";
     public static final String SCANrESULT ="scanResult";
     private static final int PHOTO = 0;
     private ValueAnimator scanAnimator;
@@ -52,7 +53,8 @@ public class ScanCodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);//Android开发(33) 透明漂浮的Actionbar https://www.jianshu.com/p/d705befeaeb5
         setContentView(R.layout.activity_scan_code);
-        setTitle(R.string.scanQrCode);
+        String title = getIntent().getStringExtra(TITLE);
+        setTitle(null== title ? getString(R.string.scanQrCode): title);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -88,8 +90,10 @@ public class ScanCodeActivity extends AppCompatActivity {
                 case PHOTO:
                     if(null!= data &&null!= data.getData())
                         try {
-                            String result = previewView.scanPhoto(MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData()));
-                            Log.d("ScanCodeActivity","onActivityResult:result="+result);
+                            Intent intent = new Intent();
+                            intent.putExtra(SCANrESULT,previewView.scanPhoto(MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData())));
+                            setResult(RESULT_OK,intent);
+                            finish();
                         }catch (IOException e){
                             e.printStackTrace();
                         }

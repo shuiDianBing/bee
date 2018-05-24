@@ -16,7 +16,10 @@
 package com.stynet.shuidianbing.opticalcharacterrecognition;
 
 import android.content.Context;
+import android.graphics.ImageFormat;
+import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Build;
 import android.util.Log;
@@ -43,8 +46,7 @@ public final class CameraConfiguration {
     private Point cameraResolution;
 
     @SuppressWarnings("SuspiciousNameCombination")
-    public void initFromCameraParameters(Context context,Camera camera) {
-        Camera.Parameters parameters = camera.getParameters();
+    public void initFromCameraParameters(Context context,Camera.Parameters parameters) {
         screenResolution = getDisplaySize(((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay());
         Point screenResolutionForCamera = new Point();
         screenResolutionForCamera.x = screenResolution.x;
@@ -80,16 +82,39 @@ public final class CameraConfiguration {
             Log.w(TAG, "Device error: no camera parameters are available. Proceeding without configuration.");
             return;
         }
+        //parameters.setPictureFormat(ImageFormat.JPEG);//过时(PixelFormat.JPEG);
+        parameters.setPreviewFpsRange(2,4);//setPreviewFrameRate(4);
+        //parameters.set("jpeg-quality", 85);//设置照片质量
+        parameters.setFlashMode(Camera.Parameters.FOCUS_MODE_AUTO);
+        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);//(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);//1连续对焦
+        //List<Camera.Area> areas = new ArrayList<>();
+        //areas.add(new Camera.Area(new Rect(),100));
+        //parameters.setFocusAreas(areas);
         parameters.setPreviewSize(cameraResolution.x, cameraResolution.y);
+        parameters.setPictureSize(cameraResolution.x,cameraResolution.y);
+        parameters.setRotation(90);
         camera.setParameters(parameters);
         Camera.Size afterSize = camera.getParameters().getPreviewSize();
-        if (null!= afterSize && (cameraResolution.x != afterSize.width || cameraResolution.y != afterSize.height)) {
+        if (null!= afterSize &&(cameraResolution.x != afterSize.width || cameraResolution.y != afterSize.height)) {
             cameraResolution.x = afterSize.width;
             cameraResolution.y = afterSize.height;
         }
         camera.setDisplayOrientation(90);//旋转捕获的画面,主要解决捕获到的画面和手机方向不一致
     }
-
+    /**
+     * Camera resolution.
+     * @param camera
+     * @param scale 调整比例
+     * @return {@link Camera}.
+     */
+    public void setZoomScale(Camera camera,float scale){
+        Camera.Parameters parameters = camera.getParameters();
+        int zoom = parameters.getZoom();
+        int maxZoom = parameters.getMaxZoom();
+        int displayZoom = Math.round((0== zoom ? maxZoom : zoom)* scale)+ zoom;
+        parameters.setZoom(maxZoom < displayZoom ? maxZoom : 0> displayZoom ?0: displayZoom);//控制displayZoom限制在0和maxZoom内
+        camera.setParameters(parameters);
+    }
     /**
      * Camera resolution.
      *

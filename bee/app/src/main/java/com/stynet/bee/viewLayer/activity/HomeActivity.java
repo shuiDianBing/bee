@@ -23,7 +23,7 @@ public class HomeActivity extends MvpvmActivity<HomeVm,HomeBinding> {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        startActivityForResult(new Intent(this, ScanCodeActivity.class),0);
+        //startActivityForResult(new Intent(this, ScanCodeActivity.class),0);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class HomeActivity extends MvpvmActivity<HomeVm,HomeBinding> {
         switch (requestCode){
             case 0:
                 if(null!= data)
-                    Printf.outInfo("HomeActivity",data.getStringExtra(ScanCodeActivity.SCANrESULT));
+                    Printf.outInfo("HomeActivity",""+data.getStringExtra(ScanCodeActivity.SCANrESULT));
                 break;
         }
     }

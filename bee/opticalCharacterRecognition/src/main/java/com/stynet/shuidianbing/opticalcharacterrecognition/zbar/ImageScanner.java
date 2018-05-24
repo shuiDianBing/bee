@@ -97,7 +97,7 @@ public class ImageScanner {
      * @returns the SymbolSet result container
      */
     public SymbolSet getResults() {
-        return (new SymbolSet(getResults(peer)));
+        return new SymbolSet(getResults(peer));
     }
 
     private native long getResults(long peer);
