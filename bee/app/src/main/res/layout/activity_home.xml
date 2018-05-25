@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:diy="http://schemas.android.com/apk/res-auto">
     <data class=".HomeBinding">
         <variable name="home" type="com.stynet.bee.modelLayer.HomeMode"/>
     </data>
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/image"
+    <com.stynet.widget.KindView
+        android:id="@+id/king"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@mipmap/ic_launcher"/>
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        diy:banColor="#646464"
+        diy:defaultColor="#ff000000"
+        diy:interval="8dp"
+        diy:layout_constraintTop_toTopOf="parent"
+        diy:lineWidth="2dp"
+        diy:padding="4dp"
+        diy:radius="4dp"
+        diy:selectedColor="#9e1010"
+        diy:textSize="16sp" />
 </android.support.constraint.ConstraintLayout>
 </layout>
