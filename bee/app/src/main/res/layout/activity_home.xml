@@ -12,14 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24sp"
+        android:layout_margin="8dp"
         diy:banColor="#646464"
         diy:defaultColor="#ff000000"
         diy:interval="8dp"
-        diy:layout_constraintTop_toTopOf="parent"
-        diy:lineWidth="2dp"
-        diy:padding="4dp"
+        diy:lineWidth="1dp"
+        diy:padding="1dp"
         diy:radius="4dp"
         diy:selectedColor="#9e1010"
-        diy:textSize="16sp" />
+        diy:textSize="16sp"
+        diy:textColor="#ff000000"/>
 </android.support.constraint.ConstraintLayout>
 </layout>
