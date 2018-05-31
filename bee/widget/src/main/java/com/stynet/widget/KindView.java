@@ -184,7 +184,7 @@ public class KindView extends View {
     }
     /**
      * 效率问题:每次循环都创建画笔设置画笔属性,性能效率低不能充分利用相同属性画笔.留此方法经供参考,不建议使用
-     * 优化方案:先初始化设置画笔属性然后循环使用{@link KindView#measure(Rect stringRect,float[] ordinate,int width)}
+     * 优化方案:先初始化设置画笔属性然后循环使用{@link KindView#measure(Rect stringRect,Paint.FontMetricsInt fontMetricsInt,float[] ordinate,int width)}
      *
      * Android 自定义View学习(三)——Paint 绘制文字属性 https://www.jianshu.com/p/1728b725b4a6
      * Android中关于字体宽高的获取 https://blog.csdn.net/u010661782/article/details/52805939
@@ -194,6 +194,7 @@ public class KindView extends View {
      * Android Canvas之Path操作 https://www.jianshu.com/p/9ad3aaae0c63
      * android canvas drawText()文字居中 https://blog.csdn.net/zly921112/article/details/50401976
      * Android自定义View五（绘制文本大小、多行多列居中）https://www.jianshu.com/p/2eb8ae713c1f
+     * Android 自定义View-怎么绘制居中文本 https://blog.csdn.net/u014702653/article/details/51985821
      *
      * @param canvas {@link Canvas}
      * @param content {@link CharSequence}
