@@ -15,10 +15,11 @@
         <attr name="radius" format="dimension"/>
         <attr name="padding" format="dimension"/>
         <attr name="defaultColor" format="color"/>
-        <attr name="selectedColor" format="color"/>
+        <attr name="selectedBackgroundColor" format="color"/>
         <attr name="banColor" format="color"/>
         <attr name="text" format="string"/>
         <attr name="textSize" format="dimension"/>
         <attr name="textColor" format="color"/>
+        <attr name="selectedTextColor" format="color"/>
     </declare-styleable>
 </resources>

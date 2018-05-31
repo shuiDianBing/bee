@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
+import android.widget.TextView;
 
 import com.stynet.bee.R;
 import com.stynet.bee.presenterLayer.HomeVm;
@@ -28,7 +30,14 @@ public class HomeActivity extends MvpvmActivity<HomeVm,HomeBinding> {
         actionBar.setDisplayHomeAsUpEnabled(true);
         //startActivityForResult(new Intent(this, ScanCodeActivity.class),0);
         KindView kind = findViewById(R.id.king);
-        kind.setKinds(new CharSequence[]{"詹姆斯·T·柯克","斯波克","莱昂纳德·麦考伊","蒙哥马利·史考特","苏鲁","帕维尔·安德烈维奇·契科夫","尼欧塔·乌胡拉","让-卢克·皮卡德","威廉·T·瑞克","data"});
+        kind.setKinds(new CharSequence[]{"龍靐龘龘","abcdefghijklmnopqrstuvwxyz","詹姆斯·T·柯克","斯波克","莱昂纳德·麦考伊","蒙哥马利·史考特","苏鲁","帕维尔·安德烈维奇·契科夫","尼欧塔·乌胡拉","让-卢克·皮卡德","威廉·T·瑞克","data"});
+        kind.setBans(new CharSequence[]{"苏鲁","data"});
+        kind.setClickListener(new KindView.ClickListener() {
+            @Override
+            public void onClick(Object key) {
+                Log.d("HomeActivity","onClick:key="+ key);
+            }
+        });
     }
 
     @Override

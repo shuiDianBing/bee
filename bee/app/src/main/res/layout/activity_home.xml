@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:diy="http://schemas.android.com/apk/res-auto">
     <data class=".HomeBinding">
         <variable name="home" type="com.stynet.bee.modelLayer.HomeMode"/>
@@ -9,18 +10,53 @@
     android:layout_height="match_parent">
     <com.stynet.widget.KindView
         android:id="@+id/king"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:layout_margin="8dp"
+        android:background="#ece1b8"
         diy:banColor="#646464"
         diy:defaultColor="#ff000000"
         diy:interval="8dp"
         diy:lineWidth="1dp"
         diy:padding="1dp"
         diy:radius="4dp"
-        diy:selectedColor="#9e1010"
+        diy:selectedBackgroundColor="#c77502"
         diy:textSize="16sp"
-        diy:textColor="#ff000000"/>
+        diy:textColor="#ff000000"
+        diy:selectedTextColor="#ffffffff"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/share_rounded_rectangle_white"
+        android:text="abcdefghijklmnopqrstuvwxyz"
+        android:textSize="16sp"
+        diy:layout_constraintBottom_toBottomOf="parent"
+        diy:layout_constraintEnd_toEndOf="@+id/king"
+        diy:layout_constraintHorizontal_bias="0.0"
+        diy:layout_constraintStart_toStartOf="parent"
+        diy:layout_constraintTop_toTopOf="parent"
+        diy:layout_constraintVertical_bias="0.061" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="龍靐龘龘"
+        android:textSize="16sp"
+        android:background="@drawable/share_rounded_rectangle_white"
+        diy:layout_constraintBottom_toBottomOf="@+id/textView"
+        diy:layout_constraintEnd_toEndOf="@+id/king"
+        diy:layout_constraintHorizontal_bias="0.0"
+        diy:layout_constraintStart_toEndOf="@+id/textView"
+        diy:layout_constraintTop_toTopOf="@+id/textView" />
 </android.support.constraint.ConstraintLayout>
 </layout>
