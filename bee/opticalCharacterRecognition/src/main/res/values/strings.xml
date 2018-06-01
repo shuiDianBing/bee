@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">opticalCharacterRecognition</string>
     <string name="scanQrCode">扫码</string>
-    <string name="photo">图库</string>
+    <string name="photoLibrary">图库</string>
     <string name="lighting">照明</string>
     <string name="changeCamera">切换相机</string>
     <string name="permission_cancel">Cancel</string>

@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/photo_album"
-        android:title="@string/photo"
+    <item android:id="@+id/lighting"
+        android:icon="@drawable/ic_flashlight"
+        android:title="@string/lighting"
+        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/changeCamera"
+        android:title="@string/changeCamera"
+        android:icon="@drawable/ic_change"
+        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/photoLibrary"
+        android:title="@string/photoLibrary"
+        android:icon="@drawable/ic_photo_library"
         app:showAsAction="ifRoom"/>
 </menu>

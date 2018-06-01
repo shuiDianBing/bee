@@ -134,8 +134,12 @@ public class ScanCodeActivity extends AppCompatActivity {
                 finish();
                 break;
             default:
-                if(itemId == R.id.photo_album)
-                    skipPhoto();
+                if(itemId == R.id.lighting)
+                    previewView.openLighting();
+                else if(itemId == R.id.changeCamera)
+                    previewView.alterCamera();//.changeCamera();
+                if(itemId == R.id.photoLibrary)
+                    skipPhotoLibrary();
                 break;
         }
         return true;
@@ -145,7 +149,7 @@ public class ScanCodeActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_scan_code,menu);
         return super.onCreateOptionsMenu(menu);
     }
-    private void skipPhoto(){
+    private void skipPhotoLibrary(){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent,PHOTO);

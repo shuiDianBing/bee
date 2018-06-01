@@ -9,6 +9,9 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import java.io.IOException;
+
 /**
  * <p>QRCode Camera preview, include QRCode recognition.</p>
  * Created by shuiDianBing on 2017/5/10.
@@ -46,13 +49,31 @@ public class CameraPreview extends FrameLayout implements SurfaceHolder.Callback
     public void setScanCallback(ScanCallback callback) {
         cameraScanAnalysis.setScanCallback(callback);
     }
-
+    /**
+     * 开关手电筒
+     */
+    public void openLighting(){
+        cameraManager.openLighting(getContext());
+    }
+    /**
+     * 切换摄像头
+     */
+    public void changeCamera(){
+        try {
+            cameraManager.changeCamera(surfaceView.getHolder());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void alterCamera(){
+        cameraManager.alterCamera(surfaceView.getHolder());
+    }
     /**
      * Camera start preview.
      */
     public boolean start() {
         try {
-            cameraManager.openDriver(getContext());
+            cameraManager.openDriver(getContext(),CameraManager.BACK);
         } catch (Exception e) {
             return false;
         }

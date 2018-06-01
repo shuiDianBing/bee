@@ -14,11 +14,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="48" />
-                            <entry key="outputName" value="ic_flashlight" />
+                            <entry key="height" value="32" />
+                            <entry key="outputName" value="ic_photo_library" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="E:\project\svg\照明，手电筒.svg" />
-                            <entry key="width" value="48" />
+                            <entry key="sourceFile" value="E:\project\svg\图库.svg" />
+                            <entry key="width" value="32" />
                           </map>
                         </option>
                       </PersistentState>

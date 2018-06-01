@@ -58,5 +58,9 @@
         diy:layout_constraintHorizontal_bias="0.0"
         diy:layout_constraintStart_toEndOf="@+id/textView"
         diy:layout_constraintTop_toTopOf="@+id/textView" />
+    <SurfaceView
+        android:id="@+id/surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </android.support.constraint.ConstraintLayout>
 </layout>

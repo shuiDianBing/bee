@@ -85,7 +85,7 @@ public final class CameraConfiguration {
         //parameters.setPictureFormat(ImageFormat.JPEG);//过时(PixelFormat.JPEG);
         parameters.setPreviewFpsRange(2,4);//setPreviewFrameRate(4);
         //parameters.set("jpeg-quality", 85);//设置照片质量
-        parameters.setFlashMode(Camera.Parameters.FOCUS_MODE_AUTO);
+        parameters.setFlashMode(Camera.Parameters.SCENE_MODE_HDR);
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);//(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);//1连续对焦
         //List<Camera.Area> areas = new ArrayList<>();
         //areas.add(new Camera.Area(new Rect(),100));
