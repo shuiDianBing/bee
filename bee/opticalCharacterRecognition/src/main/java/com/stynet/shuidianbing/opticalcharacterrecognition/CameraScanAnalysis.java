@@ -52,17 +52,18 @@ class CameraScanAnalysis implements Camera.PreviewCallback {
     }
 
     @Override
-    public void onPreviewFrame(byte[] data, Camera camera) {
-        if (allowAnalysis) {
-            allowAnalysis = false;
-            Camera.Size size = camera.getParameters().getPreviewSize();
-            final Image barcode = new Image(size.width, size.height, "Y800");//Y800不知干啥用的
-            barcode.setData(data);
-            // barcode.setCrop(startX, startY, width, height);
+    public void onPreviewFrame(final byte[] data, final Camera camera) {//获取图像
+        if (allowAnalysis)
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
                     String result = null;
+                    allowAnalysis = false;
+                    camera.addCallbackBuffer(data);//复用原来开辟的存储空间
+                    final Camera.Size size = camera.getParameters().getPreviewSize();
+                    final Image barcode = new Image(size.width, size.height, "Y800");//Y800不知干啥用的
+                    barcode.setData(data);
+                    // barcode.setCrop(startX, startY, width, height);
                     if (0!= imageScanner.scanImage(barcode)) {
                         SymbolSet symSet = imageScanner.getResults();
                         for (Symbol sym : symSet)
@@ -76,12 +77,119 @@ class CameraScanAnalysis implements Camera.PreviewCallback {
                         allowAnalysis = true;
                 }
             });
+    }
+    /**
+     * android camera yuv帧水平翻转 https://blog.csdn.net/lindonghai/article/details/78259862
+     * Android 关于获取摄像头帧数据 https://blog.csdn.net/muyu114/article/details/7642765
+     * Android中利用Camera与Matrix实现3D效果详解 https://blog.csdn.net/zhangke3016/article/details/52093776
+     * Camera与Matrix的那些事儿 https://www.jianshu.com/p/09693062a011
+     */
+    private byte[] mirror(byte[] source,int width,int height){
+        byte[] yuv = new byte[width * height * 3 / 2];
+        // Rotate and mirror the Y luma
+        int i = 0;
+        int maxY = 0;
+        for (int x = width - 1; x >= 0; x--) {
+            maxY = width * (height - 1) + x * 2;
+            for (int y = 0; y < height; y++) {
+                yuv[i] = source[maxY - (y * width + x)];
+                i++;
+            }
+        }
+        // Rotate and mirror the U and V color components
+        int uvSize = width * height;
+        i = uvSize;
+        int maxUV = 0;
+        for (int x = width - 1; x > 0; x = x - 2) {
+            maxUV = width * (height / 2 - 1) + x * 2 + uvSize;
+            for (int y = 0; y < height / 2; y++) {
+                yuv[i] = source[maxUV - 2 - (y * width + x - 1)];
+                i++;
+                yuv[i] = source[maxUV - (y * width + x)];
+                i++;
+            }
+        }
+        return yuv;
+    }
+    private void mirrorNv21(byte[] source,int width,int height){
+        int index,a,b;
+        byte temp;
+        //mirror y
+//        for (int i = 0; i < height; i++) {
+//            a = i * width;
+//            b = (i + 1) * width - 1;
+//            while (a < b) {
+//                temp = source[a];
+//                source[a] = source[b];
+//                source[b] = temp;
+//                a++;
+//                b--;
+//            }
+//        }
+//
+//        // mirror u and v
+//        index = width * height;
+//        for (int i = 0; i < height / 2; i++) {
+//            a = i * width;
+//            b = (i + 1) * width - 2;
+//            while (a < b) {
+//                temp = source[a + index];
+//                source[a + index] = source[b + index];
+//                source[b + index] = temp;
+//
+//                temp = source[a + index + 1];
+//                source[a + index + 1] = source[b + index + 1];
+//                source[b + index + 1] = temp;
+//                a+=2;
+//                b-=2;
+//            }
+//        }
+        //mirror y
+        for (int i = 0; i < height; i++) {
+            a = i * width;
+            b = (i + 1) * width - 1;
+            while (a < b) {
+                temp = source[a];
+                source[a] = source[b];
+                source[b] = temp;
+                a++;
+                b--;
+            }
+        }
+        //mirror u
+        index = width * height;//U起始位置
+        for (int i = 0; i < height / 2; i++) {
+            a = i * width / 2;
+            b = (i + 1) * width / 2 - 1;
+            while (a < b) {
+                temp = source[a + index];
+                source[a + index] = source[b + index];
+                source[b + index] = temp;
+                a++;
+                b--;
+            }
+        }
+        //mirror v
+        index = width * height / 4 * 5;//V起始位置
+        for (int i = 0; i < height / 2; i++) {
+            a = i * width / 2;
+            b = (i + 1) * width / 2 - 1;
+            while (a < b) {
+                temp = source[a + index];
+                source[a + index] = source[b + index];
+                source[b + index] = temp;
+                a++;
+                b--;
+            }
         }
     }
     /**
      * 二维码扫描的坑：本地图片二维码扫描的优化（zxing和zbar）https://www.imooc.com/article/22919?block_id=tuijian_wz
      * Android开源库之使用ZBar开源库实现二维码功能 https://blog.csdn.net/super_spy/article/details/72783082?locationNum=6&fps=1
      * Zbar扫码（摄像头+本地图片+6.0权限） https://blog.csdn.net/chiceT/article/details/53914074
+     * 针对android&ios yuv旋转、镜像、格式转换、裁剪 算法实现 https://blog.csdn.net/dangxw_/article/details/50903693
+     * https://blog.csdn.net/tanningzhong/article/details/79629006
+     * 分享几个Android摄像头采集的YUV数据旋转与镜像翻转的方法 https://www.jianshu.com/p/a1b5469a1f05
      * 将bitmap里得到的argb数据转成yuv420sp格式
      * @param width
      * @param height

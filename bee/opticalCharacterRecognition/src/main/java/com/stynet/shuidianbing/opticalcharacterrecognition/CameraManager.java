@@ -7,7 +7,6 @@ import android.content.pm.FeatureInfo;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
-import android.media.MediaRecorder;
 import android.os.Build;
 import android.view.SurfaceHolder;
 
@@ -25,6 +24,8 @@ import java.util.List;
  * android 视频播放器 android videoView 按不同比例缩放 .https://blog.csdn.net/sqk1988/article/details/7741050
  * Android 相机开发 闪光灯，前后摄像头切换，调整缩放比例 https://blog.csdn.net/a284266978/article/details/44856199
  * Android相机使用(系统相机、自定义相机、大图片处理) https://www.cnblogs.com/gao-chun/p/4863825.html
+ * 使用surfaceview预览camera，预览的图像有时会模糊，拍出来的照片也是模糊的。https://ask.csdn.net/questions/381074
+ * 解决方案;配置这个特性试试<uses-feature android:name="android.hardware.camera.autofocus"/>若是还是得不到解决，建议你使用Camera2.0的API，Camera已经过期了，你的设备应该是5.0以上的
  */
 public final class CameraManager {
     public static final byte FRONT = 0,BACK = 1;
@@ -231,7 +232,6 @@ public final class CameraManager {
                 // nothing.
             }
     }
-
     /**
      * Focus on, make a scan action.
      *
@@ -267,4 +267,5 @@ public final class CameraManager {
         if(-1 != frontIndex)
             camera = Camera.open(type == FRONT ? frontIndex : backIndex);
     }
+
 }

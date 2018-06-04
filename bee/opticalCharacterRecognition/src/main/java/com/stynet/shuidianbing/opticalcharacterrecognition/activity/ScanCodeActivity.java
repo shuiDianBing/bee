@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
@@ -42,15 +43,22 @@ import java.util.List;
  */
 
 public class ScanCodeActivity extends AppCompatActivity {
+    private static final String TAG = "ScanCodeActivity";
     public static final String TITLE = "title";
     public static final String SCANrESULT ="scanResult";
     private static final int PHOTO = 0;
+    //private PowerManager.WakeLock wakeLock;
     private ValueAnimator scanAnimator;
     private CameraPreview previewView;
     private ImageView scanLine;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Android 禁止屏幕休眠和锁屏的方法 https://blog.csdn.net/chenyafei617/article/details/6575621
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//禁止休眠.方式1
+        //android.provider.Settings.System.putInt(getContentResolver(),android.provider.Settings.System.LOCK_PATTERN_ENABLED, enabled ?1:0);//不建议使用
+        //这是因为android.permission.WRITE_SECURE_SETTINGS是系统限制的权限。所以apk需要是系统的apk （/system/app下才可以）。可以把apk 通过 adb push “你的apk” system/app  或者 修改mk文件将其编入system镜像
+        //android.provider.Settings.Secure.putInt(getContentResolver(),android.provider.Settings.Secure.LOCK_PATTERN_ENABLED,1);//禁止休眠.方式3(系统权限)
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);//Android开发(33) 透明漂浮的Actionbar https://www.jianshu.com/p/d705befeaeb5
         setContentView(R.layout.activity_scan_code);
         String title = getIntent().getStringExtra(TITLE);
@@ -105,6 +113,8 @@ public class ScanCodeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //wakeLock = ((PowerManager) getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE, TAG);
+        //wakeLock.acquire();//禁止休眠第1步(添加权限android.permission.WAKE_LOCK)
         if(null!= scanAnimator)
             startScanUnKnowPermission();
     }
@@ -113,6 +123,8 @@ public class ScanCodeActivity extends AppCompatActivity {
         scanAnimator.cancel();
         previewView.stop();
         super.onPause();
+        //if(null != wakeLock)//禁止休眠第2步(添加权限android.permission.WAKE_LOCK)
+        //    wakeLock.release();
     }
 
     @Override

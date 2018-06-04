@@ -64,9 +64,12 @@ public class CameraPreview extends FrameLayout implements SurfaceHolder.Callback
         } catch (IOException e) {
             e.printStackTrace();
         }
+        startCameraPreview(surfaceView.getHolder());
     }
     public void alterCamera(){
         cameraManager.alterCamera(surfaceView.getHolder());
+        cameraScanAnalysis.onStart();
+        startCameraPreview(surfaceView.getHolder());
     }
     /**
      * Camera start preview.
@@ -88,7 +91,6 @@ public class CameraPreview extends FrameLayout implements SurfaceHolder.Callback
         startCameraPreview(surfaceView.getHolder());
         return true;
     }
-
     /**
      * Camera stop preview.
      */
@@ -97,15 +99,6 @@ public class CameraPreview extends FrameLayout implements SurfaceHolder.Callback
         cameraScanAnalysis.onStop();
         cameraManager.stopPreview();
         cameraManager.closeDriver();
-    }
-
-    private void startCameraPreview(SurfaceHolder holder) {
-        try {
-            cameraManager.startPreview(holder, cameraScanAnalysis);
-            cameraManager.autoFocus(mFocusCallback);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -121,18 +114,6 @@ public class CameraPreview extends FrameLayout implements SurfaceHolder.Callback
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) { }
-
-    private Camera.AutoFocusCallback mFocusCallback = new Camera.AutoFocusCallback() {
-        public void onAutoFocus(boolean success, Camera camera) {
-            postDelayed(mAutoFocusTask, 1000);
-        }
-    };
-
-    private Runnable mAutoFocusTask = new Runnable() {
-        public void run() {
-            cameraManager.autoFocus(mFocusCallback);
-        }
-    };
 
     @Override
     protected void onDetachedFromWindow() {
@@ -170,6 +151,14 @@ public class CameraPreview extends FrameLayout implements SurfaceHolder.Callback
         }
         return true;
     }
+    private void startCameraPreview(SurfaceHolder holder) {
+        try {
+            cameraManager.startPreview(holder, cameraScanAnalysis);
+            cameraManager.autoFocus(mFocusCallback);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * 安卓自定义View进阶《十六》——多点触控详解 https://www.jianshu.com/p/cafedd319512
      * Android自定义View的多点触控 https://blog.csdn.net/u014582176/article/details/78934641
@@ -206,4 +195,15 @@ public class CameraPreview extends FrameLayout implements SurfaceHolder.Callback
                 default:break;
         }
     }
+    private Camera.AutoFocusCallback mFocusCallback = new Camera.AutoFocusCallback() {
+        public void onAutoFocus(boolean success, Camera camera) {
+            postDelayed(mAutoFocusTask, 1000);
+        }
+    };
+
+    private Runnable mAutoFocusTask = new Runnable() {
+        public void run() {
+            cameraManager.autoFocus(mFocusCallback);
+        }
+    };
 }
