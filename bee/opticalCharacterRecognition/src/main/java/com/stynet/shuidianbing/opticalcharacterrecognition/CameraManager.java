@@ -77,6 +77,7 @@ public final class CameraManager {
      * @param holder {@link SurfaceHolder}
      */
     public void changeCamera(SurfaceHolder holder) throws IOException{
+        camera.setPreviewCallback(null);
         camera.stopPreview();
         camera.release();
         openCamera(currentCameraType = FRONT == currentCameraType ? BACK : FRONT);
@@ -97,6 +98,7 @@ public final class CameraManager {
             Camera.getCameraInfo(i, cameraInfo);//得到每一个摄像头的信息
             if(BACK == currentCameraType) {//现在是后置，变更为前置
                 if(cameraInfo.facing  == Camera.CameraInfo.CAMERA_FACING_FRONT) {//代表摄像头的方位，CAMERA_FACING_FRONT前置      CAMERA_FACING_BACK后置
+                    camera.setPreviewCallback(null);
                     camera.stopPreview();//停掉原来摄像头的预览
                     camera.release();//释放资源
                     camera = null;//取消原来摄像头
@@ -114,6 +116,7 @@ public final class CameraManager {
                 }
             } else //现在是前置， 变更为后置
                 if(cameraInfo.facing  == Camera.CameraInfo.CAMERA_FACING_BACK) {//代表摄像头的方位，CAMERA_FACING_FRONT前置      CAMERA_FACING_BACK后置
+                    camera.setPreviewCallback(null);
                     camera.stopPreview();//停掉原来摄像头的预览
                     camera.release();//释放资源
                     camera = null;//取消原来摄像头

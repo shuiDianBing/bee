@@ -8,13 +8,14 @@
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <com.stynet.widget.KindView
         android:id="@+id/king"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
         android:layout_margin="8dp"
         android:background="#ece1b8"
+        android:textSize="24sp"
         diy:banColor="#646464"
         diy:defaultColor="#ff000000"
         diy:interval="8dp"
@@ -22,9 +23,11 @@
         diy:padding="1dp"
         diy:radius="4dp"
         diy:selectedBackgroundColor="#c77502"
-        diy:textSize="16sp"
+        diy:selectedTextColor="#ffffffff"
         diy:textColor="#ff000000"
-        diy:selectedTextColor="#ffffffff"/>
+        diy:textSize="16sp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <TextView
         android:id="@+id/textView"
@@ -61,6 +64,7 @@
     <SurfaceView
         android:id="@+id/surface"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 </android.support.constraint.ConstraintLayout>
 </layout>

@@ -145,7 +145,7 @@ public class KindView extends View {
             RectF frame = new RectF(points[index][0]+ lineWidth/2,points[index][1]+ lineWidth/2,points[index][2]- lineWidth /2,points[index][3]- lineWidth /2);
             canvas.drawRoundRect(frame,radius,radius,paints[1]);
             Paint.FontMetricsInt fontMetricsInt = paints[0].getFontMetricsInt();
-            canvas.drawText(kinds[index],0,kinds[index].length(),points[index][0]+ lineWidth + padding,points[index][3]- lineWidth - padding +2*(fontMetricsInt.top - fontMetricsInt.ascent),paints[0]);
+            canvas.drawText(kinds[index],0,kinds[index].length(),points[index][0]+ lineWidth + padding,points[index][3]- lineWidth - padding +1.6f*(fontMetricsInt.top - fontMetricsInt.ascent),paints[0]);
             //canvas.drawCircle(points[index][0]+(points[index][2]- points[index][0])/2,(points[index][3]-points[index][1])/2,(points[index][3]-points[index][1])/2-lineWidth -padding,paints[0]);
             //canvas.drawLine(points[index][0],points[index][1],points[index][2],points[index][3],paints[1]);
             //canvas.drawLine(points[index][2],points[index][1],points[index][0],points[index][3],paints[1]);
@@ -179,7 +179,7 @@ public class KindView extends View {
         location[1] = ordinate[1];
         location[2] = ordinate[0]+ stringRect.width()+2*(padding + lineWidth + stringRect.left);
         location[3] = ordinate[1]+ stringRect.height()+2*(padding + lineWidth -(fontMetricsInt.top - fontMetricsInt.ascent));//添加字符top和ascent差值
-        ordinate[0] += lineWidth *2+ padding *2+ stringRect.width()+ interval;
+        ordinate[0] += (lineWidth + padding)*2+ stringRect.width()+ interval;
         return location;
     }
     /**
