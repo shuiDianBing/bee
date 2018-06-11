@@ -25,27 +25,26 @@ public class BorderTextView extends TextView {
 
     public BorderTextView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        getAttribute(attrs);
+        getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.border));
     }
 
     public BorderTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        getAttribute(attrs);
+        getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.border,defStyleAttr,0));
     }
 
     public BorderTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        getAttribute(attrs);
+        getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.border,defStyleAttr,defStyleRes));
     }
-    private void getAttribute(AttributeSet attrs){
-        TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.border);
-        lineWidth = array.getDimension(R.styleable.border_lineWidth,DEFAULTsTROKErADIUS);
-        strokeRadius = array.getDimension(R.styleable.border_strokeRadius,DEFAULTsTROKErADIUS);
-        leftTop = array.getDimension(R.styleable.border_leftTop,DEFAULTsTROKErADIUS);
-        rightTop = array.getDimension(R.styleable.border_rightTop,DEFAULTsTROKErADIUS);
-        rightBottom = array.getDimension(R.styleable.border_rightBottom,DEFAULTsTROKErADIUS);
-        leftBottom = array.getDimension(R.styleable.border_leftBottom,DEFAULTsTROKErADIUS);
-        array.recycle();
+    private void getAttribute(TypedArray typedArray){
+        lineWidth = typedArray.getDimension(R.styleable.border_lineWidth,DEFAULTsTROKErADIUS);
+        strokeRadius = typedArray.getDimension(R.styleable.border_strokeRadius,DEFAULTsTROKErADIUS);
+        leftTop = typedArray.getDimension(R.styleable.border_leftTop,DEFAULTsTROKErADIUS);
+        rightTop = typedArray.getDimension(R.styleable.border_rightTop,DEFAULTsTROKErADIUS);
+        rightBottom = typedArray.getDimension(R.styleable.border_rightBottom,DEFAULTsTROKErADIUS);
+        leftBottom = typedArray.getDimension(R.styleable.border_leftBottom,DEFAULTsTROKErADIUS);
+        typedArray.recycle();
     }
     @Override
     protected void onDraw(Canvas canvas) {

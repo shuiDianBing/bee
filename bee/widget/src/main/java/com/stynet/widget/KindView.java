@@ -38,31 +38,30 @@ public class KindView extends View {
 
     public KindView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        getAttribute(attrs);
+        getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.kind));
     }
 
     public KindView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        getAttribute(attrs);
+        getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.kind,defStyleAttr,0));
     }
 
     public KindView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        getAttribute(attrs);
+        getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.kind,defStyleAttr,defStyleRes));
     }
-    private void getAttribute(AttributeSet attrs){
-        TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.kind);
-        interval = array.getDimension(R.styleable.kind_interval,0);//间距
-        lineWidth = array.getDimension(R.styleable.kind_lineWidth,0);//线宽
-        radius = array.getDimension(R.styleable.kind_radius,0);//圆角半径
-        padding = array.getDimension(R.styleable.kind_padding,0);//内边距
-        defaultColor = array.getColor(R.styleable.kind_defaultColor, 0Xff000000);//默认颜色
-        selectedBackgroundColor = array.getColor(R.styleable.kind_selectedBackgroundColor,0xffc77502);//选中背景颜色
-        banColor = array.getColor(R.styleable.kind_banColor,0xff999999);//禁用颜色
-        textSize = array.getDimensionPixelSize(R.styleable.kind_textSize,16);//字体大小
-        textColor = array.getColor(R.styleable.kind_textColor,0xff000000);//字体默认颜色
-        selectedTextColor = array.getColor(R.styleable.kind_selectedTextColor,0xffffffff);//字体选中颜色
-        array.recycle();
+    private void getAttribute(TypedArray typedArray){
+        interval = typedArray.getDimension(R.styleable.kind_interval,0);//间距
+        lineWidth = typedArray.getDimension(R.styleable.kind_lineWidth,0);//线宽
+        radius = typedArray.getDimension(R.styleable.kind_radius,0);//圆角半径
+        padding = typedArray.getDimension(R.styleable.kind_padding,0);//内边距
+        defaultColor = typedArray.getColor(R.styleable.kind_defaultColor, 0Xff000000);//默认颜色
+        selectedBackgroundColor = typedArray.getColor(R.styleable.kind_selectedBackgroundColor,0xffc77502);//选中背景颜色
+        banColor = typedArray.getColor(R.styleable.kind_banColor,0xff999999);//禁用颜色
+        textSize = typedArray.getDimensionPixelSize(R.styleable.kind_textSize,16);//字体大小
+        textColor = typedArray.getColor(R.styleable.kind_textColor,0xff000000);//字体默认颜色
+        selectedTextColor = typedArray.getColor(R.styleable.kind_selectedTextColor,0xffffffff);//字体选中颜色
+        typedArray.recycle();
     }
     private Paint[] initPaint(){
         Paint[] paints = new Paint[2];

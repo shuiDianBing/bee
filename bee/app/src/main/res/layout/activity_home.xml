@@ -66,5 +66,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>
+    <com.stynet.widget.FiltrateView
+        android:id="@+id/filtrate"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        diy:layout_constraintBottom_toBottomOf="@+id/king"
+        diy:layout_constraintEnd_toEndOf="parent"
+        diy:layout_constraintHorizontal_bias="1.0"
+        diy:layout_constraintStart_toStartOf="parent"
+        diy:layout_constraintTop_toTopOf="parent"
+        diy:layout_constraintVertical_bias="0.0" />
 </android.support.constraint.ConstraintLayout>
 </layout>
