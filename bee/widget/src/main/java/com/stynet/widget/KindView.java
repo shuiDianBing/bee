@@ -1,5 +1,6 @@
 package com.stynet.widget;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -7,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -45,7 +47,7 @@ public class KindView extends View {
         super(context, attrs, defStyleAttr);
         getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.kind,defStyleAttr,0));
     }
-
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public KindView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.kind,defStyleAttr,defStyleRes));

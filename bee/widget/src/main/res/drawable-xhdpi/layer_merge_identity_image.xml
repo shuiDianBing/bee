@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/shape_rounded_rectangle_white"/>
+    <item android:left="8dp" android:top="8dp" android:right="8dp" android:bottom="8dp"
+        android:drawable="@drawable/shape_rectangle_frame_blue"/>
+    <item android:gravity="center|left" android:tileMode="disabled"
+        android:left="16dp"  android:top="32dp" android:right="240dp" android:bottom="16dp">
+        <bitmap android:src="@drawable/ic_launcher_background"/>
+    </item>
+    <item android:gravity="center" android:tileMode="disabled"
+        android:left="128dp" android:top="32dp" android:right="128dp" android:bottom="16dp">
+        <bitmap android:src="@drawable/ic_launcher_background"/>
+    </item>
+    <item android:gravity="center|right" android:tileMode="disabled"
+        android:left="240dp" android:top="16dp" android:right="16dp" android:bottom="16dp">
+        <bitmap android:src="@drawable/icon_cross_x_ff4a"/>
+    </item>
+</layer-list>

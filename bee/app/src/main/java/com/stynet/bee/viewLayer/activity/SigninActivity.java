@@ -12,6 +12,8 @@ import com.stynet.bee.presenterLayer.SigninVm;
 import com.stynet.frameset.mvpvm.viewLayer.activity.MvpvmActivity;
 import com.stynet.bee.SigninBinding;
 import com.stynet.frameset.photoProcess.StackBlur;
+import com.stynet.widget.activity.BubbleApiActivity;
+import com.stynet.widget.activity.EphemerisActivity;
 
 /**
  * Created by shuiDianBing on 2018/5/7.
@@ -33,7 +35,7 @@ public class SigninActivity extends MvpvmActivity<SigninVm,SigninBinding> {
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.text_signin:
-                        startActivity(new Intent(SigninActivity.this,HomeActivity.class));
+                        startActivity(new Intent(SigninActivity.this,EphemerisActivity.class));
                         break;
                         default:break;
                 }

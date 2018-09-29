@@ -1,10 +1,12 @@
 package com.stynet.widget;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -32,7 +34,7 @@ public class BorderTextView extends TextView {
         super(context, attrs, defStyleAttr);
         getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.border,defStyleAttr,0));
     }
-
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BorderTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.border,defStyleAttr,defStyleRes));

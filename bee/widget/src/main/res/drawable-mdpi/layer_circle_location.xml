@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    Android Shape使用 https://www.jianshu.com/p/ef734937b521
+    https://github.com/fccaikai/DrawableResourcesExample
+    <item android:width="32dp" android:height="32dp" android:gravity="center">
+        <shape android:shape="oval">
+            <solid android:color="@android:color/white"/>
+            <!--<size android:width="32dp" android:height="32dp"/>-->
+        </shape>
+    </item>
+    <!--渐变圆环-->
+    <!--<item android:width="24dp" android:height="24dp" android:gravity="center">
+        <shape android:shape="oval">
+            <gradient
+                android:angle="180"
+                android:centerColor="#9D74FF"
+                android:centerX="1.0"
+                android:centerY="1.0"
+                android:endColor="#4671FE"
+                android:startColor="#4EA9FC"
+                android:type="linear" />
+        </shape>
+    </item>
+    <item android:width="22dp" android:height="22dp" android:gravity="center">
+        <shape android:shape="oval">
+            <solid android:color="@android:color/white"/>
+        </shape>
+    </item>-->
+    <item android:width="24dp" android:height="24dp" android:gravity="center">
+        <shape android:shape="ring" android:useLevel="false" android:thickness="1dp">
+            <gradient android:angle="45"
+                android:startColor="#4671FE"
+                android:centerColor="#9D74FF"
+                android:endColor="#4EA9FC"
+                android:type="linear"/>
+        </shape>
+    </item>
+    <item android:width="6dp" android:height="6dp" android:gravity="center">
+        <shape android:shape="oval">
+            <!-- from top to bottom -->
+            <gradient
+                android:angle="45"
+                android:type="linear"
+                android:centerColor="@android:color/transparent"
+                android:endColor="@android:color/transparent"
+                android:startColor="#404671FE" />
+            <corners android:radius="10dp" />
+        </shape>
+    </item>
+    <!-- content -->
+    <item android:width="5dp" android:height="5dp" android:gravity="center">
+        <shape android:shape="oval" >
+            <solid android:color="#1050c1e9" />
+            <corners android:radius="2dp" />
+        </shape>
+    </item>
+    <item android:width="4dp" android:height="4dp" android:gravity="center">
+        <shape android:shape="oval">
+            <gradient android:angle="45"
+                android:startColor="#4671FE"
+                android:centerColor="#4EA9FC"
+                android:endColor="#00E1FF"
+                android:type="linear"/>
+        </shape>
+    </item>
+</layer-list>

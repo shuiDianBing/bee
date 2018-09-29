@@ -1,10 +1,12 @@
 package com.stynet.widget;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -57,17 +59,17 @@ public class FiltrateView extends View {
 
     public FiltrateView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.FiltrateView));
+        getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.filtrateView));
     }
 
     public FiltrateView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.FiltrateView,defStyleAttr,0));
+        getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.filtrateView,defStyleAttr,0));
     }
-
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public FiltrateView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.FiltrateView,defStyleAttr,defStyleRes));
+        getAttribute(getContext().obtainStyledAttributes(attrs, R.styleable.filtrateView,defStyleAttr,defStyleRes));
     }
 
     @Override
@@ -256,19 +258,19 @@ public class FiltrateView extends View {
      * @param typedArray {@link TypedArray}
      */
     private void getAttribute(TypedArray typedArray){
-        widthOffset = typedArray.getDimension(R.styleable.FiltrateView_widthOffset, widthOffset);
-        minFontSize = typedArray.getInteger(R.styleable.FiltrateView_minFontSize, minFontSize);
-        maxFontSize = typedArray.getInteger(R.styleable.FiltrateView_maxBezierHeight, maxFontSize);
-        hintFontSize = typedArray.getInteger(R.styleable.FiltrateView_hintFontSize, hintFontSize);
-        maxBezierHeight = typedArray.getDimension(R.styleable.FiltrateView_maxBezierHeight, maxBezierHeight);
-        maxBezierWidth = typedArray.getDimension(R.styleable.FiltrateView_maxBezierWidth, maxBezierWidth);
-        maxBezierLines = typedArray.getInteger(R.styleable.FiltrateView_maxBezierLines, maxBezierLines);
-        hintOffset = typedArray.getDimension(R.styleable.FiltrateView_hintOffset, hintOffset);
-        fontColor = typedArray.getColor(R.styleable.FiltrateView_fontColor, fontColor);
-        hintFontColor = typedArray.getColor(R.styleable.FiltrateView_hintFontColor, hintFontColor);
+        widthOffset = typedArray.getDimension(R.styleable.filtrateView_widthOffset, widthOffset);
+        minFontSize = typedArray.getInteger(R.styleable.filtrateView_minFontSize, minFontSize);
+        maxFontSize = typedArray.getInteger(R.styleable.filtrateView_maxBezierHeight, maxFontSize);
+        hintFontSize = typedArray.getInteger(R.styleable.filtrateView_hintFontSize, hintFontSize);
+        maxBezierHeight = typedArray.getDimension(R.styleable.filtrateView_maxBezierHeight, maxBezierHeight);
+        maxBezierWidth = typedArray.getDimension(R.styleable.filtrateView_maxBezierWidth, maxBezierWidth);
+        maxBezierLines = typedArray.getInteger(R.styleable.filtrateView_maxBezierLines, maxBezierLines);
+        hintOffset = typedArray.getDimension(R.styleable.filtrateView_hintOffset, hintOffset);
+        fontColor = typedArray.getColor(R.styleable.filtrateView_fontColor, fontColor);
+        hintFontColor = typedArray.getColor(R.styleable.filtrateView_hintFontColor, hintFontColor);
         typedArray.recycle();
         scroller = new Scroller(getContext());
-        pointF = new PointF(0,-10*maxBezierWidth);
+        pointF = new PointF(0,-10* maxBezierWidth);
         bezier1 = new PointF[maxBezierLines];
         bezier2 = new PointF[maxBezierLines];
         lastFucusPostion = new PointF();

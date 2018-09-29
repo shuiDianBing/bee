@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<item android:drawable="@drawable/layer_rounded_rectangle_imaginary_line_white"/>-->
+    <item android:gravity="center">
+        <bitmap android:src="@drawable/ic_launcher_background" android:gravity="center"/>
+    </item>
+    <item android:gravity="center"
+        android:left="9dp" android:top="9dp" android:right="9dp" android:bottom="9dp"
+        android:drawable="@drawable/shape_rounded_rectangle_transparency"/>
+</layer-list>

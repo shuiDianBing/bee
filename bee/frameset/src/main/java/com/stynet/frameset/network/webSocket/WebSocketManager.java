@@ -119,7 +119,8 @@ public class WebSocketManager {
             public void onTextMessage(WebSocket websocket, String text) throws Exception {
 
             }
-
+            @Override
+            public void onTextMessage(WebSocket webSocket,byte[] bytes){}
             @Override
             public void onBinaryMessage(WebSocket websocket, byte[] binary) throws Exception {
 

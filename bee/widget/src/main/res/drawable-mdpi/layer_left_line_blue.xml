@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/shape_rounded_gradual_change_line_blue"/>
+    <item android:drawable="@drawable/shape_rounded_rectangle_right_white"
+        android:left="4dp"/>
+</layer-list>

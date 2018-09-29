@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Android 动画：手把手教你使用 补间动画 https://www.jianshu.com/p/733532041f46-->
+<!--Drawable动画实现 https://blog.csdn.net/xingzhong128/article/details/80231292-->
+<!--Drawable绘制过程源码分析和自定义Drawable实现动画 https://www.jianshu.com/p/e0dd55dd734a-->
+<!--自定义动画效果的Drawable https://blog.csdn.net/github_35180164/article/details/51814279/
+https://github.com/Rukey7/DrawableSample-->
+<!--Android动画之-补间动画 https://blog.csdn.net/eyishion/article/details/51835866-->
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <alpha xmlns:android="http://schemas.android.com/apk/res/android"
+        android:repeatMode="reverse"
+        android:repeatCount="infinite"
+        android:duration="200"
+        android:fillAfter="false"
+        android:fromAlpha="1.0"
+        android:toAlpha="0.4"/>
+    <scale
+        android:interpolator="@android:anim/accelerate_decelerate_interpolator"
+        android:repeatMode="reverse"
+        android:repeatCount="infinite"
+        android:duration="200"
+        android:fromXScale="1.0"
+        android:toXScale="0.4"
+        android:fromYScale="1.0"
+        android:toYScale="0.4"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:fillAfter="false"/>
+</set>

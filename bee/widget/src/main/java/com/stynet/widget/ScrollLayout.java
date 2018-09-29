@@ -1,0 +1,381 @@
+package com.stynet.widget;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.os.Build;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.widget.Scroller;
+
+/**
+ * Created by xx shuiDianBing, 2018/09/28-17:13:17:13.Refer to the website: nullptr
+ * 自定义ViewGroup实现水平滑动 https://blog.csdn.net/deng0zhaotai/article/details/21404589
+ * Android view体系简析及自定义滑动ViewGroup的优化 https://www.jianshu.com/p/c1d04960cfa1
+ **/
+
+public class ScrollLayout extends ViewGroup {
+    private Scroller scroller;//弹性滑动对象，用于实现View的弹性滑动
+    private VelocityTracker velocityTracker;// 速度轨迹追踪
+//    private int childCount;//子View数量
+//    private int childIndex;//子View索引
+//    private int measuredHeight;//子View的高度
+//    private int measuredWidth;//子View的宽度
+//    private float upX,upY;//放开的坐标点
+//    private float downX, downY;//按下的坐标点
+    public ScrollLayout(Context context) {
+        super(context);
+        scroller = new Scroller(getContext());
+        //velocityTracker = VelocityTracker.obtain();
+        scroller = new Scroller(context);
+        mCurScreen = mDefaultScreen;// 默认设置显示第一个VIEW
+        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+    }
+
+    public ScrollLayout(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        scroller = new Scroller(getContext());
+        //velocityTracker = VelocityTracker.obtain();
+    }
+
+    public ScrollLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        scroller = new Scroller(getContext());
+       // velocityTracker = VelocityTracker.obtain();
+    }
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public ScrollLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        scroller = new Scroller(getContext());
+        //velocityTracker = VelocityTracker.obtain();
+    }
+//    private void initAttribute(@Nullable TypedArray typedArray){ }
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        super.onMeasure(widthMeasureSpec,heightMeasureSpec);
+//        // 获得它的父容器为它设置的测量模式和大小
+//        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+//        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+//        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+//        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+//        // 1.计算自定义的ViewGroup中所有子控件的大小
+//        // measureChildren(widthMeasureSpec, heightMeasureSpec);
+//        int height = 0,width = 0;
+//        for (int index = 0; index < getChildCount(); index++)//统计childView宽高
+//            if(GONE != getChildAt(index).getVisibility()) {
+//                measureChild(getChildAt(index), widthMeasureSpec, heightMeasureSpec);// 为ScrollerLayout中的每一个子控件测量大小
+//                measuredHeight = getChildAt(index).getMeasuredHeight();
+//                measuredWidth = getChildAt(index).getMeasuredWidth();
+//                height = Math.max(height, measuredHeight);
+//                width += measuredWidth;
+//                height += measuredHeight;
+//            }
+//        // 设置自定义的控件MyViewGroup的大小，如果是MeasureSpec.EXACTLY则直接使用父ViewGroup传入的宽和高，否则设置为自己计算的宽和高
+//        setMeasuredDimension(widthMode == MeasureSpec.EXACTLY ? widthSize : width, heightMode == MeasureSpec.EXACTLY ? heightSize : height);
+//    }
+//    @Override
+//    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+//        int width = 0,height = 0;
+//        for(int index = 0 ;index < getChildCount();index++) {
+//            //getChildAt(index).layout(width, height, width += getChildAt(i).getMeasuredWidth(),height +=  getChildAt(i).getMeasuredHeight());
+//            //getChildAt(index).layout(width, 0, width += getChildAt(index).getMeasuredWidth(),getChildAt(index).getMeasuredHeight());
+//            if (GONE != getChildAt(index).getVisibility()) {//跳过隐藏的
+//                measuredHeight = getMeasuredHeight();
+//                measuredWidth = getMeasuredWidth();
+//                height = Math.max(height, measuredHeight);
+//                getChildAt(index).layout(width, 0, width += measuredWidth, height);
+//                childCount++;
+//            }
+//        }
+//    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        switch (event.getAction()){
+//            case MotionEvent.ACTION_DOWN:
+//                downX = event.getX();
+//                downY = event.getY();
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                scroller.startScroll((int)downX,(int)downY,(int)event.getX(),(int)event.getY(),0);//up 时自动滚动到
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                upX = event.getX();
+//                upY = event.getY();
+//                invalidate();
+//                break;
+//        }
+//        return true;//super.onInterceptTouchEvent(ev);
+//    }
+//
+//    @Override
+//    public void computeScroll() {
+//        //super.computeScroll();
+//        if (scroller.computeScrollOffset()) {
+//            scrollTo(scroller.getCurrX(), scroller.getCurrY());
+//            postInvalidate();
+//        }
+//    }
+//
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//        switch (ev.getAction()){
+//            case MotionEvent.ACTION_DOWN:
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                break;
+//        }
+//        return super.onInterceptTouchEvent(ev);
+//    }
+
+
+    private static final String TAG = "HScrollViewGroup_dzt";
+    private static final int TOUCH_STATE_REST = 0;
+    private static final int TOUCH_STATE_SCROLLING = 1;
+    private static final int SNAP_VELOCITY = 400;// 滑动视图的速率
+     private static final int INTERVAL = 4; // 每次滑动的间隔
+     private Direction direction = Direction.NONE;
+     private int mCurScreen; // 记录当前页
+     private int mDefaultScreen = 0; // 默认页
+     private int mTouchState = TOUCH_STATE_REST;// 设置触发状态
+     private int mTouchSlop; // 触发移动的像素距离
+     private float mLastMotionX; // 手指触碰屏幕的最后一次x坐标
+     private float mLastMotionY; // 手指触碰屏幕的最后一次y坐标
+     private int mTotalPage; // 总页数
+     private int mMaxWidth; // 所有子控件加起来的总宽度
+     private int mWidth; // 每个子控件的宽度
+     private int mCtrlWidth = 0;
+     private int mRemainder; // 总宽度除以每页的余数
+     private int mMoveCount; // 移动计数器
+     int[] mScreens = new int[5];// 每页的最前一个坐标
+
+    /**	 * 父类为子类在屏幕上分配实际的宽度和高度,里面的四个参数分别表示，布局是否发生改变，布局左 上右下的边距	 */
+     @Override
+     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+          if (changed) {
+              int childLeft = 0;
+              final int childCount = getChildCount();
+              for (int i = 0; i < childCount; i++) {
+                  final View childView = getChildAt(i);
+                  if (childView.getVisibility() != View.GONE) {
+                      if (childCount > 5 && ((i != 0) && ((i % 4 == 0)) || (i == childCount - 1))) {
+                          childView.layout(childLeft, 0, childLeft+ (mWidth + mRemainder), childView.getMeasuredHeight());
+                          childLeft += (mWidth + mRemainder);
+                      } else {
+                          childView.layout(childLeft, 0, childLeft + mWidth, childView.getMeasuredHeight());
+                          childLeft += mWidth;
+                      }
+                  }
+              }
+              calculateScreens();
+          }
+     }
+     /**	 * 计算每页第一个item的位置	 */
+     void calculateScreens() {
+         int childLeft = 0;
+         int viewWidth = getWidth();
+         int curPage = 0;
+         mScreens[curPage] = childLeft;
+         ++curPage;
+         final int childCount = getChildCount();
+         for (int i = 0; i < childCount; i++) {
+             final View childView = getChildAt(i);
+             if (childView.getVisibility() != View.GONE) {
+                 if (childCount > 5 && ((i != 0) && ((i % 4 == 0)) || (i == childCount - 1))) {
+                     childLeft += (mWidth + mRemainder);
+                     if (childLeft > (viewWidth)) {
+                         mScreens[curPage] = childLeft - (mWidth + mRemainder)
+                                 + mScreens[curPage - 1];
+                         ++curPage;
+                         childLeft = (mWidth + mRemainder);
+                     }
+                 } else {
+                     childLeft += mWidth;
+                     if (childLeft > (viewWidth)) {
+                         mScreens[curPage] = childLeft - mWidth
+                                 + mScreens[curPage - 1];
+                         ++curPage;
+                         childLeft = mWidth;
+                     }
+                 }
+             }
+             Log.d(TAG, "childLeft = " + childLeft);
+         }
+         if (childLeft != 0 && curPage > 1) {
+             mScreens[curPage - 1] = mScreens[curPage - 1] + childLeft- viewWidth;
+         }
+     }
+     /**	 * MeasureSpec类的静态方法getMode和getSize来译解。一个MeasureSpec包含一个尺寸和模式。
+      * * 	 * 有三种可能的模式：	 * 	 * UNSPECIFIED：父布局没有给子布局任何限制，子布局可以任意大小。
+      * * EXACTLY：父布局决定子布局的确切大小。不论子布局多大，它都必须限制在这个界限里
+      * * 。(当布局定义为一个固定像素或者fill_parent时就是EXACTLY模式)
+      * * AT_MOST：子布局可以根据自己的大小选择任意大小。(当布局定义为wrap_content时就是AT_MOST模式)
+      * */
+     @Override	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+         // TODO Auto-generated method stub
+         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+         final int width = MeasureSpec.getSize(widthMeasureSpec);
+         final int height = MeasureSpec.getSize(heightMeasureSpec);
+         if (mCtrlWidth != width) {
+             mCtrlWidth = width;
+             mWidth = width / 5;
+             mRemainder = width % 5;
+             // The children are given the same width and height as the			// scrollLayout
+             final int count = getChildCount();
+             for (int i = 0; i < count; i++) {
+                 if (count > 5&& ((i != 0) && ((i % 4 == 0)) || (i == count - 1))) {
+                     getChildAt(i).measure((mWidth + mRemainder), heightMeasureSpec);
+                 } else {
+                     getChildAt(i).measure(mWidth, heightMeasureSpec);
+                 }
+             }
+             mMaxWidth = (getChildCount() * mWidth) + mRemainder;
+             mTotalPage = mMaxWidth / width;
+             snapToScreen(mCurScreen);
+             scroller.abortAnimation();
+             Log.d(TAG, "mTotalPage = " + mTotalPage + " width = " + width+ " height = " + height + " count = " + count	+ " mCurScreen = " + mCurScreen);
+         }
+     }
+     /**	 * 根据滑动的距离判断移动到第几个视图	 */
+         public void snapToDestination() {
+             final int screenWidth = getWidth();
+             final int scrollX = getScrollX() > mMaxWidth ? mMaxWidth : getScrollX();
+             final int destScreen = (scrollX + screenWidth / 2) / screenWidth;
+             Log.d(TAG, "screenWidth = " + screenWidth + " destScreen = "+ destScreen + " scrollx = " + scrollX);
+             snapToScreen(destScreen);
+         }
+             /**	 * 滚动到制定的视图	 * 	 * @param whichScreen	 *            视图下标	 */
+             public void snapToScreen(int whichScreen) {
+                 whichScreen = Math.max(0, Math.min(whichScreen, getChildCount() - 1));
+                 if (getScrollX() != (whichScreen * getWidth())) {
+                     // final int delta = whichScreen * getWidth() - getScrollX();
+                     	final int delta = mScreens[mCurScreen] - getScrollX();
+                     	Log.d(TAG, "snapToScreen-whichScreen = " + whichScreen	+ " delta = " + delta + " scrollX = " + getScrollX());
+                     	scroller.startScroll(getScrollX(), 0, delta, 0, 2000);
+                     	mCurScreen = whichScreen;
+                     	mMoveCount = getScrollX();
+                     	invalidate();
+                 }
+             }
+             public void setDirection(Direction dir) {
+                 direction = dir;
+             }
+             public int getCurScreen() {
+                 return mCurScreen;
+             }
+             @Override	public void computeScroll() {		// TODO Auto-generated method stub
+                  if (scroller.computeScrollOffset()) {
+                      if (direction == Direction.LEFT) {
+                          Log.d(TAG, "left mScreens[mCurScreen] = "	+ mScreens[mCurScreen]);
+                          mMoveCount -= INTERVAL;
+                          if (mMoveCount < 0) {
+                              mMoveCount = 0;
+                              scroller.abortAnimation();
+                              }
+                              scrollTo(mMoveCount, scroller.getCurrY());
+                      } else if (direction == Direction.RIGHT) {
+                          if (scroller.getCurrX() <= mScreens[mCurScreen]) {
+                              Log.d(TAG, "right mScreens[mCurScreen] = "+ mScreens[mCurScreen]);
+                              mMoveCount += INTERVAL;
+                              if (mMoveCount > mScreens[mCurScreen]) {
+                                  mMoveCount = mScreens[mCurScreen];
+                                  scroller.abortAnimation();
+                              }
+                              scrollTo(mMoveCount, scroller.getCurrY());
+                          } else {
+                              scrollTo(mScreens[mCurScreen], scroller.getCurrY());
+                              scroller.abortAnimation();
+                          }
+                      } else {
+                          scroller.forceFinished(true);
+                      }
+                      postInvalidate();
+                      Log.d(TAG, "computeScroll----mMoveCount = " + mMoveCount);
+                      Log.d(TAG, "computeScroll----x = " + scroller.getCurrX());
+                  }
+             }
+             @Override	public boolean onTouchEvent(MotionEvent event) {		// TODO Auto-generated method stub
+                  if (velocityTracker == null) {
+                      velocityTracker = VelocityTracker.obtain();
+                  }
+                  velocityTracker.addMovement(event);
+                  final int action = event.getAction();
+                  final float x = event.getX();
+                  switch (action) {
+                      case MotionEvent.ACTION_DOWN:
+                          if (!scroller.isFinished()) {				// scroller.abortAnimation();
+                               		Log.d(TAG, "-----------onTouchEvent---ACTION_DOWN no finish");
+                               		return false;
+                          }
+                          mLastMotionX = x;
+                          Log.d(TAG, "down mLastMotionX = " + mLastMotionX);
+                          break;
+                          case MotionEvent.ACTION_MOVE:
+                              int deltaX = (int) (mLastMotionX - x);
+                              mLastMotionX = x;
+                              Log.d(TAG, "move scroll " + getScrollX() + " mCurScreen = "+ mCurScreen + " mTotalPage = " + mTotalPage + " deltaX = "+ deltaX);
+                              if (getScrollX() > 0 && mCurScreen < mTotalPage)
+                                  scrollBy(deltaX, 0);
+                              break;
+                              case MotionEvent.ACTION_UP:
+                                  final VelocityTracker velocityTracker = this.velocityTracker;
+                                  velocityTracker.computeCurrentVelocity(1000);
+                                  int velocityX = (int) velocityTracker.getXVelocity();
+                                  if (velocityX > SNAP_VELOCITY && mCurScreen > 0) {
+                                      // 向左移动				Log.d(TAG, "left mCurScreen = " + mCurScreen);
+                                      direction = Direction.LEFT;
+                                      snapToScreen(mCurScreen - 1);
+                                  } else if (velocityX < -SNAP_VELOCITY && mCurScreen < mTotalPage) {				// 向右移动
+                                       	Log.d(TAG, "right mCurScreen = " + mCurScreen);
+                                       	direction = Direction.RIGHT;
+                                       	snapToScreen(mCurScreen + 1);
+                                  } else {
+                                      direction = Direction.NONE;
+                                      snapToDestination();
+                                  }
+                                  if (this.velocityTracker != null) {
+                                      this.velocityTracker.recycle();
+                                      this.velocityTracker = null;
+                                  }			mTouchState = TOUCH_STATE_REST;
+                                  break;
+                                  case MotionEvent.ACTION_CANCEL:
+                                      mTouchState = TOUCH_STATE_REST;
+                                      break;
+                  }
+                  return true;
+             }
+             /**	 * 用于拦截手势事件的，每个手势事件都会先调用这个方法。Layout里的onInterceptTouchEvent默认返回值是false,
+     * 这样touch事件会传递到View控件	 */
+             @Override	public boolean onInterceptTouchEvent(MotionEvent ev) {		// TODO Auto-generated method stub
+                  final int action = ev.getAction();
+                  if ((action == MotionEvent.ACTION_MOVE)&& (mTouchState != TOUCH_STATE_REST)) {
+                      return true;		}
+                      final float x = ev.getX();
+                  final float y = ev.getY();
+                  switch (action) {
+                      case MotionEvent.ACTION_MOVE:
+                          final int xDiff = (int) Math.abs(mLastMotionX - x);
+                          if (xDiff > mTouchSlop) {
+                              mTouchState = TOUCH_STATE_SCROLLING;
+                          }			break;
+                          case MotionEvent.ACTION_DOWN:
+                              mLastMotionX = x;
+                              mLastMotionY = y;
+                              mTouchState = scroller.isFinished() ? TOUCH_STATE_REST : TOUCH_STATE_SCROLLING;
+                              break;
+                              case MotionEvent.ACTION_CANCEL:
+                                  case MotionEvent.ACTION_UP:
+                                      mTouchState = TOUCH_STATE_REST;
+                                      break;
+                  }
+                  return mTouchState != TOUCH_STATE_REST;
+             }
+             /**	 * 滑动的方向	 * 	 * @author Administrator	 * 	 */
+             public enum Direction {		LEFT, RIGHT, NONE	}
+
+}

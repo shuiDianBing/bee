@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">如果运行报错请放到drawable中
+    <!--Android 6.0 animation-list 失效问题 https://www.jianshu.com/p/9bc687a49c2b-->
+    <item android:drawable="@drawable/layer_overlap_gradual_cange_circle_white0"
+        android:duration="512"/>
+    <item android:drawable="@drawable/layer_overlap_gradual_cange_circle_white1"
+        android:duration="512"/>
+    <item android:drawable="@drawable/layer_overlap_gradual_cange_circle_white2"
+        android:duration="512"/>
+    <item android:drawable="@drawable/layer_overlap_gradual_cange_circle_white1"
+        android:duration="512"/>
+    <item android:drawable="@drawable/layer_overlap_gradual_cange_circle_white0"
+        android:duration="512"/>
+</animation-list>

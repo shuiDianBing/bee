@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="lineWidth" format="dimension"/>多行定义要提出来
-    <declare-styleable name="border">
+    <attr name="shadowRadius" format="float"/>多行定义要提出来
+    <attr name="shadowX" format="dimension"/>多行定义要提出来
+    <attr name="shadowY" format="dimension"/>多行定义要提出来
+    <attr name="shadowColor" format="color"/>多行定义要提出来
+    <declare-styleable name="border">带边框的TextView
         <attr name="lineWidth"/>
         <attr name="strokeRadius" format="dimension"/>
         <attr name="leftTop" format="dimension"/>
@@ -9,7 +13,7 @@
         <attr name="rightBottom" format="dimension"/>
         <attr name="leftBottom" format="dimension"/>
     </declare-styleable>
-    <declare-styleable name="kind">
+    <declare-styleable name="kind">种类
         <attr name="interval" format="dimension"/>
         <attr name="lineWidth"/>
         <attr name="radius" format="dimension"/>
@@ -22,7 +26,7 @@
         <attr name="textColor" format="color"/>
         <attr name="selectedTextColor" format="color"/>
     </declare-styleable>
-    <declare-styleable name="FiltrateView">
+    <declare-styleable name="filtrateView">筛选器
         <attr name="widthOffset" format="dimension"/>
         <attr name="minFontSize" format="integer"/>
         <attr name="maxFontSize" format="integer"/>
@@ -33,5 +37,44 @@
         <attr name="hintOffset" format="dimension"/>
         <attr name="fontColor" format="color"/>
         <attr name="hintFontColor" format="color"/>
+    </declare-styleable>
+    <declare-styleable name="bubbleLayout">气泡
+        <attr name="lookAt">
+            <enum name="left"   value="1"/>
+            <enum name="top"    value="2"/>
+            <enum name="right"  value="3"/>
+            <enum name="bottom" value="4"/>
+        </attr>
+        <attr name="lookPosition" format="dimension"/>
+        <attr name="lookWidth"    format="dimension"/>
+        <attr name="lookLength"   format="dimension"/>
+        <attr name="bubbleColor"  format="color"/>
+        <attr name="bubbleRadius" format="dimension"/>
+        <attr name="bubblePadding" format="dimension"/>
+        <attr name="shadowRadius"/>
+        <attr name="shadowX"/>
+        <attr name="shadowY"/>
+        <attr name="shadowColor"/>
+    </declare-styleable>
+    <declare-styleable name="ephemerisStreamLayout">星历流
+        <attr name="element" format="integer"/>元素
+        <attr name="elementRadius" format="float"/>元素半径
+        <attr name="elementColor" format="color"/>元素颜色
+        <attr name="angle" format="float"/>角度
+        <attr name="particleRadius" format="float"/>粒子半径
+        <attr name="particleColor" format="color"/>粒子颜色
+        <attr name="knownColor" format="color"/>已知进度
+        <attr name="exploreColor" format="color"/>当前阶段
+        <attr name="unKnownColor" format="color"/>未知
+        <attr name="shadowRadius"/>
+        <attr name="shadowX"/>
+        <attr name="shadowY"/>
+        <attr name="shadowColor"/>
+    </declare-styleable>
+    <declare-styleable name="WrapContentViewPager">//viewPager滑动
+        <attr name="slide" format="boolean"/>
+    </declare-styleable>
+    <declare-styleable name="strokeTextView">//字体描边
+        <attr name="strokeColor" format="color"/>
     </declare-styleable>
 </resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 正三角 -->
+    <!--Android 画三角形shape https://blog.csdn.net/u013598111/article/details/50494129-->
+    <item>
+        <rotate
+            android:fromDegrees="45"
+            android:pivotX="-40%"
+            android:pivotY="80%"
+            android:toDegrees="45">
+            <shape android:shape="rectangle">
+                <solid android:color="@android:color/transparent" />
+            </shape>
+        </rotate>
+    </item>
+</layer-list>

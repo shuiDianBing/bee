@@ -8,7 +8,6 @@
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <com.stynet.widget.KindView
         android:id="@+id/king"
         android:layout_width="wrap_content"
@@ -28,7 +27,6 @@
         diy:textSize="16sp"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -46,7 +44,6 @@
         diy:layout_constraintStart_toStartOf="parent"
         diy:layout_constraintTop_toTopOf="parent"
         diy:layout_constraintVertical_bias="0.061" />
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
