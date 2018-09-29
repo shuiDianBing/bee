@@ -3,73 +3,113 @@
     xmlns:attr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <com.stynet.widget.EphemerisStreamLayout
+    android:orientation="vertical"
+    android:background="#936881d4">
+    <com.stynet.widget.ScrollLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#ffffffff"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="32dp"
+        android:paddingLeft="4dp"
+        android:paddingTop="8dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="32dp"
         attr:angle="0.0">
-        <View
+        <ImageView
+            android:layout_width="256dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@mipmap/bg_bugatti"
+            android:background="#ababab"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="32dp"
+            android:paddingLeft="4dp"
+            android:paddingTop="8dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="32dp"/>
+        <ImageView
+            android:layout_width="256dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/shape_solar_halo_golden"
+            android:background="#1243e6"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="32dp"
+            android:paddingLeft="4dp"
+            android:paddingTop="8dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="32dp"/>
+        <ImageView
+            android:layout_width="256dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/shape_scattering_blue"
+            android:background="#12e61d"/>
+        <ImageView
+            android:layout_width="256dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/shape_scattering_golden"
+            android:background="#ad0de2"/>
+        <ImageView
+            android:layout_width="256dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/shape_scattering_peak_green"
+            android:background="#f20a0a"/>
+        <ImageView
+            android:layout_width="256dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/shape_solar_halo_blue"
+            android:background="#da840b"/>
+        <ImageView
+            android:layout_width="256dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/shape_solar_halo_golden"
+            android:background="#5e4f0d"/>
+        <ImageView
+            android:layout_width="256dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/shape_scattering_blue"
+            android:background="#e4d50c"/>
+        <ImageView
+            android:layout_width="256dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/shape_scattering_golden"
+            android:background="#68ce87"/>
+        <ImageView
+            android:layout_width="256dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/shape_scattering_peak_green"
+            android:background="#0e3b3b"/>
+        <ImageView
+            android:layout_width="256dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/shape_solar_halo_blue"
+            android:background="#743bef"/>
+        <ImageView
+            android:layout_width="256dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/shape_solar_halo_golden"
+            android:background="#3f1d48"/>
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/shape_solar_halo_blue" />
-        <View
+            android:src="@drawable/shape_scattering_blue"
+            android:background="#d71d7a"/>
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            android:background="@drawable/shape_solar_halo_golden" />
-        <View
-            android:layout_width="match_parent"
+            android:src="@drawable/shape_scattering_golden"
+            android:background="#c91c44"/>
+        <ImageView
+            android:layout_width="256dp"
             android:layout_height="match_parent"
-            android:background="@drawable/shape_scattering_blue" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_scattering_golden" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_scattering_peak_green" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_solar_halo_blue" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            android:background="@drawable/shape_solar_halo_golden" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_scattering_blue" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_scattering_golden" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_scattering_peak_green" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_solar_halo_blue" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            android:background="@drawable/shape_solar_halo_golden" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_scattering_blue" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_scattering_golden" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_scattering_peak_green" />
-    </com.stynet.widget.EphemerisStreamLayout>
+            android:src="@drawable/shape_leaf_rounded_bottom_change_blue"
+            android:background="#000000"/>
+    </com.stynet.widget.ScrollLayout>
 </LinearLayout>
