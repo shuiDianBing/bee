@@ -12,6 +12,7 @@ import android.widget.Scroller;
 
 /**
  * Created by xx shuiDianBing, 2018/09/29-10:08:10:08.Refer to the website: nullptr
+ * 自定义ViewGroup实现水平滑动 https://blog.csdn.net/deng0zhaotai/article/details/21404589
  **/
 
 public class TestLayout extends ViewGroup {

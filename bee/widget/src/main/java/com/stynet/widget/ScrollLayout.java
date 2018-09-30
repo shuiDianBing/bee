@@ -18,6 +18,10 @@ import android.widget.Scroller;
  * Created by xx shuiDianBing, 2018/09/28-17:13:17:13.Refer to the website: nullptr
  * 自定义ViewGroup实现水平滑动 https://blog.csdn.net/deng0zhaotai/article/details/21404589
  * Android view体系简析及自定义滑动ViewGroup的优化 https://www.jianshu.com/p/c1d04960cfa1
+ * 自定义ViewGroup实现弹性滑动效果 https://blog.csdn.net/y874961524/article/details/52752169
+ * [android]ScrollTo、ScrollBy、Scroller,都给我滚！https://www.jianshu.com/p/8fe96aeff3ee
+ * Android 浅谈scrollTo和scrollBy源码 https://blog.csdn.net/jsonChumpKlutz/article/details/78544385
+ * android ScrollTo()和ScrollBy()解析送给初学者 https://www.jianshu.com/p/2e60448ac44c
  **/
 
 public class ScrollLayout extends ViewGroup {
@@ -27,8 +31,10 @@ public class ScrollLayout extends ViewGroup {
     private int childIndex;//子View索引
     private int measuredHeight;//子View的高度
     private int measuredWidth;//子View的宽度
+    private float x,y;
     private float upX,upY;//放开的坐标点
     private float downX, downY;//按下的坐标点
+    private float speed = 0x200;//滑动视图的速率
     public ScrollLayout(Context context) {
         super(context);
         scroller = new Scroller(context);
@@ -54,11 +60,6 @@ public class ScrollLayout extends ViewGroup {
     }
     private void initAttribute(@Nullable TypedArray typedArray){ }
 
-    @Override
-    public LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new MarginLayoutParams(getContext(),attrs);
-    }
-
     @Override//自定义View学习笔记之详解onMeasure https://www.jianshu.com/p/1695988095a5
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec,heightMeasureSpec);
@@ -79,6 +80,10 @@ public class ScrollLayout extends ViewGroup {
                 MeasureSpec.EXACTLY == MeasureSpec.getMode(heightMeasureSpec)? MeasureSpec.getSize(heightMeasureSpec) : height);
     }
     @Override
+    public LayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new MarginLayoutParams(getContext(),attrs);
+    }
+    @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int width = getPaddingLeft(),height = getPaddingTop();
         for(int index = 0 ;index < getChildCount();index++) {
@@ -88,6 +93,7 @@ public class ScrollLayout extends ViewGroup {
                 measuredWidth = getChildAt(index).getMeasuredWidth();
                 measuredHeight = getChildAt(index).getMeasuredHeight();
                 //height = Math.max(height, measuredHeight);
+                //TODO 这里根据角度排列childView,此处插入根据角度算位置code
                 getChildAt(index).layout(((MarginLayoutParams)getChildAt(index).getLayoutParams()).leftMargin + width,
                         ((MarginLayoutParams)getChildAt(index).getLayoutParams()).topMargin + height,
                         width += measuredWidth -((MarginLayoutParams)getChildAt(index).getLayoutParams()).rightMargin,
@@ -101,24 +107,32 @@ public class ScrollLayout extends ViewGroup {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                downX = event.getX();
-                downY = event.getY();
+                if(!scroller.isFinished())
+                    scroller.abortAnimation();//终止滑动
                 break;
             case MotionEvent.ACTION_MOVE:
-                scroller.startScroll((int)downX,(int)downY,(int)event.getX(),(int)event.getY(),0);//up 时自动滚动到
+                //scrollTo(-(int)(event.getX()- x),-(int)(event.getY()- y));//每次从头开始不累计偏移量
+                scrollBy(-(int)(event.getX()- x),-(int)(event.getY()- y));
+                //方式1
+                //scroller.startScroll(getScrollX(),getScrollY(),-(int)(event.getX()- x),-(int)(event.getY()- y),0x0);
+                //invalidate();
                 break;
             case MotionEvent.ACTION_UP:
-                upX = event.getX();
-                upY = event.getY();
-                invalidate();
+                velocityTracker.addMovement(event);
+//                velocityTracker.computeCurrentVelocity(0x200);
+//                float xVelocity = velocityTracker.getXVelocity();//获取X方向手指滑动的速度，之前必须调用computeCurrentVelocity（）方法
+//                scroller.startScroll(getScrollX(),0,getScrollX()+(int)xVelocity,0,0x200);//up 时自动滚动到
+//                invalidate();
                 break;
         }
-        return true;//super.onInterceptTouchEvent(ev);
+        x = event.getX();
+        y = event.getY();
+        return true;//super.onInterceptTouchEvent(event);
     }
 
     @Override
     public void computeScroll() {
-        //super.computeScroll();
+        super.computeScroll();
         if (scroller.computeScrollOffset()) {
             scrollTo(scroller.getCurrX(), scroller.getCurrY());
             postInvalidate();
