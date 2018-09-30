@@ -27,13 +27,8 @@ import android.widget.Scroller;
 public class ScrollLayout extends ViewGroup {
     private Scroller scroller;//弹性滑动对象，用于实现View的弹性滑动
     private VelocityTracker velocityTracker;// 速度轨迹追踪
-    private int childCount;//子View数量
-    private int childIndex;//子View索引
-    private int measuredHeight;//子View的高度
-    private int measuredWidth;//子View的宽度
+    private int width,height;//子View的高度
     private float x,y;
-    private float upX,upY;//放开的坐标点
-    private float downX, downY;//按下的坐标点
     private float speed = 0x200;//滑动视图的速率
     public ScrollLayout(Context context) {
         super(context);
@@ -69,8 +64,8 @@ public class ScrollLayout extends ViewGroup {
         for (int index = 0; index < getChildCount(); index++)//测量childView宽高
             if(GONE != getChildAt(index).getVisibility()) {
                 measureChild(getChildAt(index), widthMeasureSpec, heightMeasureSpec);// 为ScrollerLayout中的每一个子控件测量大小
-                measuredWidth = getChildAt(index).getMeasuredWidth();
-                measuredHeight = getChildAt(index).getMeasuredHeight();
+                int measuredWidth = getChildAt(index).getMeasuredWidth();
+                int measuredHeight = getChildAt(index).getMeasuredHeight();
                 height = Math.max(height, measuredHeight);
                 width += measuredWidth;
                 height += measuredHeight;
@@ -85,20 +80,18 @@ public class ScrollLayout extends ViewGroup {
     }
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        int width = getPaddingLeft(),height = getPaddingTop();
+        width = getPaddingLeft();
+        height = getPaddingTop();
         for(int index = 0 ;index < getChildCount();index++) {
             //getChildAt(index).layout(width, height, width += getChildAt(i).getMeasuredWidth(),height +=  getChildAt(i).getMeasuredHeight());
             //getChildAt(index).layout(width, 0, width += getChildAt(index).getMeasuredWidth(),getChildAt(index).getMeasuredHeight());
             if (GONE != getChildAt(index).getVisibility()) {//跳过隐藏的
-                measuredWidth = getChildAt(index).getMeasuredWidth();
-                measuredHeight = getChildAt(index).getMeasuredHeight();
                 //height = Math.max(height, measuredHeight);
                 //TODO 这里根据角度排列childView,此处插入根据角度算位置code
                 getChildAt(index).layout(((MarginLayoutParams)getChildAt(index).getLayoutParams()).leftMargin + width,
                         ((MarginLayoutParams)getChildAt(index).getLayoutParams()).topMargin + height,
-                        width += measuredWidth -((MarginLayoutParams)getChildAt(index).getLayoutParams()).rightMargin,
-                        measuredHeight + getPaddingBottom()- ((MarginLayoutParams)getChildAt(index).getLayoutParams()).bottomMargin);
-                childCount++;
+                        width += getChildAt(index).getMeasuredWidth() -((MarginLayoutParams)getChildAt(index).getLayoutParams()).rightMargin,
+                        getChildAt(index).getMeasuredHeight() + getPaddingBottom()- ((MarginLayoutParams)getChildAt(index).getLayoutParams()).bottomMargin);
             }
         }
     }
@@ -111,8 +104,11 @@ public class ScrollLayout extends ViewGroup {
                     scroller.abortAnimation();//终止滑动
                 break;
             case MotionEvent.ACTION_MOVE:
+                float monevX = event.getX()- x;
+                float monevY = event.getY()- y;
                 //scrollTo(-(int)(event.getX()- x),-(int)(event.getY()- y));//每次从头开始不累计偏移量
-                scrollBy(-(int)(event.getX()- x),-(int)(event.getY()- y));
+                scrollBy(0< getScrollX()- monevX ? width > getScrollX()- monevX ? -(int)monevX : width :0,
+                        0< getScrollY()-(int)(event.getY()- y)? -(int)(event.getY()- y):0);
                 //方式1
                 //scroller.startScroll(getScrollX(),getScrollY(),-(int)(event.getX()- x),-(int)(event.getY()- y),0x0);
                 //invalidate();
