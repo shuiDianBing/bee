@@ -13,7 +13,7 @@ import com.stynet.widget.helper.HorizontalScroller;
 /**
  * Created by xx shuiDianBing, 2018/09/29-10:22:10:22.Refer to the website: nullptr
  **/
-
+@Deprecated
 public class TestHorizontalScrollView extends ViewGroup {
     //手势
     private GestureDetector mGestureDetector;

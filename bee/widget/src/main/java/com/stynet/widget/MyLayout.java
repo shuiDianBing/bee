@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
  * Created by xx shuiDianBing, 2018/09/29-10:38:10:38.Refer to the website: nullptr
  * Android 自定义View 实现手势监听，左右滑动，上下滑动 https://blog.csdn.net/oNingNing1/article/details/52607114
  **/
-
+@Deprecated
 public class MyLayout extends RelativeLayout implements GestureDetector.OnGestureListener{
     private
     int verticalMinDistance = 20;

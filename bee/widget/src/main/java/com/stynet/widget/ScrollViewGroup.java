@@ -14,6 +14,7 @@ import android.widget.Scroller;
  * Created by xx shuiDianBing, 2018/09/30-10:36:10:36.Refer to the website: nullptr
  * 自定义ViewGroup实现弹性滑动效果 https://blog.csdn.net/y874961524/article/details/52752169
  **/
+@Deprecated
 public class ScrollViewGroup extends ViewGroup {
 
     private static final String TAG = "ScrollView";

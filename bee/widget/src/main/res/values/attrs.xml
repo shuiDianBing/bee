@@ -76,5 +76,6 @@
     </declare-styleable>
     <declare-styleable name="strokeTextView">//字体描边
         <attr name="strokeColor" format="color"/>
+        <attr name="strokeWidth" format="dimension"/>
     </declare-styleable>
 </resources>

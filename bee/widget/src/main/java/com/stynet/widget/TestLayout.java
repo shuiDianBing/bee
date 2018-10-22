@@ -14,7 +14,7 @@ import android.widget.Scroller;
  * Created by xx shuiDianBing, 2018/09/29-10:08:10:08.Refer to the website: nullptr
  * 自定义ViewGroup实现水平滑动 https://blog.csdn.net/deng0zhaotai/article/details/21404589
  **/
-
+@Deprecated
 public class TestLayout extends ViewGroup {
     private Scroller scroller;//弹性滑动对象，用于实现View的弹性滑动
     private VelocityTracker velocityTracker;// 速度轨迹追踪
@@ -168,7 +168,7 @@ public class TestLayout extends ViewGroup {
             // final int delta = whichScreen * getWidth() - getScrollX();
             final int delta = mScreens[mCurScreen] - getScrollX();
             Log.d(TAG, "snapToScreen-whichScreen = " + whichScreen	+ " delta = " + delta + " scrollX = " + getScrollX());
-            scroller.startScroll(getScrollX(), 0, delta, 0, 2000);
+            scroller.startScroll(getScrollX(), 0, delta, 0, 100);
             mCurScreen = whichScreen;
             mMoveCount = getScrollX();
             invalidate();
