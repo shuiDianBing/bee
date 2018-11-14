@@ -6,15 +6,11 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
-import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.Scroller;
-
-import com.stynet.widget.helper.UnitConvert;
 
 /**
  * Created by xx shuiDianBing, 2018/09/28-17:13:17:13.Refer to the website: nullptr
@@ -36,24 +32,36 @@ public class ScrollLayout extends ViewGroup {
     private float x,y;
     private float speed = 0x200;//滑动视图的速率
     private int pointerId;
+    private int mtouchslop;
+    private int mminimumVelocity;
+    private int mMaximumVelocity;
+    private int overscrollDistance;
+    private int overflingDistance;
+
     public ScrollLayout(Context context) {
-        super(context);
-        scroller = new Scroller(context);
+        super(context,null);
     }
 
     public ScrollLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        scroller = new Scroller(context);
+        this(context, attrs,0);
     }
 
     public ScrollLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        scroller = new Scroller(context);
+        this(context, attrs, defStyleAttr,0);
     }
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ScrollLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         scroller = new Scroller(context);
+        setFocusable(true);
+        setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
+        setWillNotDraw(false);
+        final ViewConfiguration configuration = ViewConfiguration.get(context);
+        mtouchslop = configuration.getScaledTouchSlop();//被认为是滑动操作的最小距离
+        mminimumVelocity = configuration.getScaledMinimumFlingVelocity();//最小加速度
+        mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();//最大加速度
+        overscrollDistance = configuration.getScaledOverscrollDistance();//用手指拖动超过边缘的最大距离
+        overflingDistance = configuration.getScaledOverflingDistance();//滑动超过边缘的最大距离
     }
     private void initAttribute(@Nullable TypedArray typedArray){ }
 
@@ -111,11 +119,10 @@ public class ScrollLayout extends ViewGroup {
                     scroller.abortAnimation();//终止滑动
                 break;
             case MotionEvent.ACTION_MOVE:
-
                 velocityTracker.addMovement(event);
                 float monevX = event.getX()- x;
                 float monevY = event.getY()- y;
-                //scrollTo(-(int)(event.getX()- x),-(int)(event.getY()- y));//每次从头开始不累计偏移量
+                scrollTo(-(int)(event.getX()- x),-(int)(event.getY()- y));//每次从头开始不累计偏移量
                 scrollBy(0< getScrollX()- monevX ? width - getMeasuredWidth()+getPaddingRight()> getScrollX()- monevX ? -(int)monevX :0:0,0);
                         //0< getScrollY()- monevY ? height > getScrollY()- monevY ? -(int)monevY : getPaddingBottom()- getHeight() :0);
                 //方式1
@@ -125,11 +132,18 @@ public class ScrollLayout extends ViewGroup {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL://惯性滑动
-                //velocityTracker.computeCurrentVelocity(0x20);
-                //float xVelocity = velocityTracker.getXVelocity();//获取X方向手指滑动的速度，之前必须调用computeCurrentVelocity（）方法
-                //float yVelocity = velocityTracker.getXVelocity();//获取X方向手指滑动的速度，之前必须调用computeCurrentVelocity（）方法
-                //scroller.startScroll(getScrollX(),0,-getScrollX()-(int)xVelocity,0,0x200);//up 时自动滚动到
-                //invalidate();
+                velocityTracker.computeCurrentVelocity(0x20,0x20);
+                float xVelocity = velocityTracker.getXVelocity();//获取X方向手指滑动的速度，之前必须调用computeCurrentVelocity（）方法
+                float yVelocity = velocityTracker.getXVelocity();//获取X方向手指滑动的速度，之前必须调用computeCurrentVelocity（）方法
+                //TODO 惯性滑动
+//                int initialVelocity = (int) velocityTracker.getXVelocity(mActivePointerId);
+//                //如果有有效的加速度
+//                if ((Math.abs(initialVelocity) > mminimumvelocity)) //处理带有加速度的滑动事件
+//                    flingWithNestedDispatch(-initialVelocity);
+//                else if (mScroller.springBack(mScrollX, mScrollY, 0, 0, 0, getScrollRange()))
+                    postInvalidateOnAnimation();
+                scroller.startScroll(getScrollX(),0,-getScrollX()-(int)xVelocity,0,0x200);//up 时自动滚动到
+                invalidate();
                 velocityTracker.recycle();
                 velocityTracker = null;
                 break;

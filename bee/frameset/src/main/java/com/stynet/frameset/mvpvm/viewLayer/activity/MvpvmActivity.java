@@ -1,6 +1,8 @@
 package com.stynet.frameset.mvpvm.viewLayer.activity;
 
 import android.databinding.ViewDataBinding;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.stynet.frameset.FrameActivity;
 import com.stynet.frameset.mvpvm.viewModelLayer.MvpvmViewModel;
@@ -12,4 +14,8 @@ import com.stynet.frameset.mvpvm.viewModelLayer.MvpvmViewModel;
  */
 
 public abstract class MvpvmActivity<Presemter extends MvpvmViewModel,DataBinding extends ViewDataBinding> extends FrameActivity{
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 }

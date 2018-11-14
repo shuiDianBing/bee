@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#936881d4">
-    <HorizontalScrollView
+    <com.stynet.widget.ScrollLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffffffff"
@@ -18,10 +18,10 @@
         android:paddingRight="16dp"
         android:paddingBottom="32dp"
         attr:angle="0.0">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal">-->
         <ImageView
             android:layout_width="256dp"
             android:layout_height="match_parent"
@@ -115,6 +115,6 @@
             android:layout_height="match_parent"
             android:src="@drawable/shape_leaf_rounded_bottom_change_blue"
             android:background="#000000"/>
-        </LinearLayout>
-    </HorizontalScrollView>
+        <!--</LinearLayout>-->
+    </com.stynet.widget.ScrollLayout>
 </LinearLayout>

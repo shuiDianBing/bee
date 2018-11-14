@@ -15,6 +15,9 @@ import com.stynet.frameset.photoProcess.StackBlur;
 import com.stynet.widget.activity.BubbleApiActivity;
 import com.stynet.widget.activity.EphemerisActivity;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by shuiDianBing on 2018/5/7.
  */
@@ -26,20 +29,26 @@ public class SigninActivity extends MvpvmActivity<SigninVm,SigninBinding> {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_signin);
         SigninBinding signinBinding = DataBindingUtil.setContentView(this,R.layout.activity_signin);
-        signinBinding.textSignin.setOnClickListener(getClickListener());
+        ButterKnife.bind(this);
+//        signinBinding.textSignin.setOnClickListener(getClickListener());
+//        signinBinding.textRegister.setOnClickListener(getClickListener());
+//        signinBinding.textForgotPassword.setOnClickListener(getClickListener());
         new StackBlur().blurNativelyPixels(getWindow().getDecorView().findViewById(android.R.id.content),((BitmapDrawable)getResources().getDrawable(R.mipmap.bg_sign)).getBitmap(),64,true);
     }
-    private View.OnClickListener getClickListener(){
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()){
-                    case R.id.text_signin:
-                        startActivity(new Intent(SigninActivity.this,EphemerisActivity.class));
-                        break;
-                        default:break;
-                }
-            }
-        };
+    @OnClick({R.id.textSignin,R.id.textRegister,R.id.textForgotPassword})
+    public void clickListener(View view) {
+        switch (view.getId()) {
+            case R.id.textSignin:
+                startActivity(new Intent(SigninActivity.this, HomeActivity.class));
+                break;
+            case R.id.textRegister:
+                startActivity(new Intent(SigninActivity.this, EphemerisActivity.class));
+                break;
+            case R.id.textForgotPassword:
+                startActivity(new Intent(SigninActivity.this, EphemerisActivity.class));
+                break;
+            default:
+                break;
+        }
     }
 }

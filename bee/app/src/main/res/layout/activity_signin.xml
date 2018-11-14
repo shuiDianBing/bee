@@ -13,7 +13,7 @@
     透明背景APP登录界面 http://www.ooopic.com/pic_18611778.html?_Track=415050b5c7c2bcbde7c3e6
     app登录朦胧设计 http://weili.ooopic.com/weili_13365135.html?_Track=415050b5c7c2bcbde7c3e6
     <ImageView
-        android:id="@+id/image_picture"
+        android:id="@+id/imagePicture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="8dp"
@@ -28,7 +28,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.138" />
     <EditText
-        android:id="@+id/edit_account"
+        android:id="@+id/editAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="8dp"
@@ -39,16 +39,17 @@
         android:drawableLeft="@drawable/ic_account"
         android:drawablePadding="8dp"
         android:hint="@string/inAccount"
+        android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
         android:theme="@style/selectWhiteLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_picture"
+        app:layout_constraintTop_toBottomOf="@+id/imagePicture"
         app:layout_constraintVertical_bias="0.0" />
     <EditText
-        android:id="@+id/edit_passowd"
+        android:id="@+id/editPassowd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="8dp"
@@ -59,16 +60,17 @@
         android:drawableLeft="@drawable/ic_passwod"
         android:drawablePadding="8dp"
         android:hint="@string/inPasswod"
+        android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
         android:theme="@style/selectWhiteLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_account"
+        app:layout_constraintTop_toBottomOf="@+id/editAccount"
         app:layout_constraintVertical_bias="0.042" />
     <TextView
-        android:id="@+id/text_signin"
+        android:id="@+id/textSignin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="8dp"
@@ -88,10 +90,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_passowd"
+        app:layout_constraintTop_toBottomOf="@+id/editPassowd"
         app:layout_constraintVertical_bias="0.0" />
     <TextView
-        android:id="@+id/text_register"
+        android:id="@+id/textRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -108,10 +110,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.347"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_signin"
+        app:layout_constraintTop_toBottomOf="@+id/textSignin"
         app:layout_constraintVertical_bias="0.0" />
     <TextView
-        android:id="@+id/text_forgotPassword"
+        android:id="@+id/textForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -129,8 +131,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.053"
-        app:layout_constraintStart_toEndOf="@+id/text_register"
-        app:layout_constraintTop_toBottomOf="@+id/text_signin"
+        app:layout_constraintStart_toEndOf="@+id/textRegister"
+        app:layout_constraintTop_toBottomOf="@+id/textSignin"
         app:layout_constraintVertical_bias="0.0" />
 </android.support.constraint.ConstraintLayout>
 </layout>

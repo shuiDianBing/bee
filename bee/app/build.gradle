@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
-
+def releaseTime() {//gradle在根目录写上，获取时间的方法
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+def calendar = Calendar.getInstance()
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
@@ -7,19 +10,45 @@ android {
         applicationId "com.stynet.bee"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 1
+        versionCode Integer.parseInt(String.format("%d%02d%02d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH)))
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions.annotationProcessorOptions.includeCompileClasspath = true
         externalNativeBuild {
             cmake {
                 cppFlags ""
             }
         }
+        android {
+            lintOptions {
+                checkReleaseBuilds false
+                // Or, if you prefer, you can continue to check for errors in release builds,
+                // but continue the build even when errors are found:
+                abortOnError false
+            }
+        }
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    /**
+     * Android studio build.gradle配置，debug下使用正式签名，重命名apk https://blog.csdn.net/y_chengyong/article/details/47154515
+     * Android 使用Gradle打包APP名称和版本号 https://www.jianshu.com/p/1f7efff62d85
+     * Android Studio 3.0正式版填坑之路 https://www.jianshu.com/p/9b25087a5d7d
+     */
+    applicationVariants.all { variant ->//android.applicationVariants.all
+        variant.outputs.all { output ->//androidStudio3.0以前的版本可用variant.outputs.all
+//            output.outputFile = new File(output.outputFile.parent,"beeVersion" + variant.productFlavors[0].name + defaultConfig.versionName +
+//                    (variant.buildType.name.equals('release')?"Releast.apk" : "Debug.apk"))
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                if (variant.buildType.name.equals('release')) {
+                    //variant.mergedFlavor.versionName = getVersionName()
+                    outputFileName = "beeVersion${variant.mergedFlavor.versionName}"+"(${ variant.mergedFlavor.versionCode})release.apk"
+                } else if (variant.buildType.name.equals('debug')) {
+                    //variant.mergedFlavor.versionName = getVersionName()+"."+releaseTime()
+                    outputFileName = "beeVersion${variant.mergedFlavor.versionName}"+"(versionCode${ variant.mergedFlavor.versionCode})debug.apk"
+                }
+                //output.outputFile = new File(outputFile.parent, fileName)//3.0以前
+            }
         }
     }
     externalNativeBuild {
@@ -28,6 +57,42 @@ android {
         }
     }
     dataBinding { enabled = true }
+    signingConfigs {
+        debug {
+            keyAlias 'skynet'
+            keyPassword 'shuiDianBing'
+            storeFile file("../app/bee.jks")//这里我放在project根目录下，根据路径配置
+            storePassword 'shuiDianBing'
+        }
+        release {
+            keyAlias 'skynet'
+            keyPassword 'shuiDianBing'
+            storeFile file("../app/bee.jks")
+            storePassword 'shuiDianBing'
+        }
+    }
+    buildTypes {
+        debug{
+            minifyEnabled false
+            versionNameSuffix "debug"
+            signingConfig signingConfigs.debug//signingConfigs此项闭包放在buildTypes前才能调用这句
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //Android studio中的BuildConfig类 https://blog.csdn.net/gengbaolong/article/details/79594058
+            //Android Gradle 完整指南 https://www.cnblogs.com/laughingQing/p/5855774.html
+            buildConfigField("String","API_HOST","\"http://www.skynet.com/\"")//第一个参数：要创建的字段类型，第二个参数：要创建的字段名，第三个参数：创建此字段的值
+        }
+        release {
+            //是否开启zip优化
+            zipAlignEnabled true
+            minifyEnabled false
+            //正式的签名文件
+            signingConfig signingConfigs.release
+            //versionNameSuffix "release"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String","API_HOST","\"https://www.skyeye.com/\"")
+        }
+    }
+    sourceSets.main.jniLibs.srcDir 'libs'//说明so的路径为该libs路径，关联所有地图SDK的so文件
 }
 
 dependencies {
