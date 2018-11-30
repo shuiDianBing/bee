@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">地图</string>
+    <string name="location">location</string>
+    <string name="backgroundPositioning">后台定位中</string>
+    <string name="warmPrompt">温馨提示</string>
+    <string name="whetherTheJumpSettingTurnsOnGPS">是否跳转设置开启gps</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+</resources>

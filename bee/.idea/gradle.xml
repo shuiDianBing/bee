@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/frameset" />
             <option value="$PROJECT_DIR$/imageRecognition" />
+            <option value="$PROJECT_DIR$/map" />
             <option value="$PROJECT_DIR$/opticalCharacterRecognition" />
             <option value="$PROJECT_DIR$/widget" />
           </set>

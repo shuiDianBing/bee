@@ -12,7 +12,7 @@ import com.stynet.bee.presenterLayer.SigninVm;
 import com.stynet.frameset.mvpvm.viewLayer.activity.MvpvmActivity;
 import com.stynet.bee.SigninBinding;
 import com.stynet.frameset.photoProcess.StackBlur;
-import com.stynet.widget.activity.BubbleApiActivity;
+import com.stynet.map.ActivityGoogleMap;
 import com.stynet.widget.activity.EphemerisActivity;
 
 import butterknife.ButterKnife;
@@ -45,7 +45,7 @@ public class SigninActivity extends MvpvmActivity<SigninVm,SigninBinding> {
                 startActivity(new Intent(SigninActivity.this, EphemerisActivity.class));
                 break;
             case R.id.textForgotPassword:
-                startActivity(new Intent(SigninActivity.this, EphemerisActivity.class));
+                startActivity(new Intent(SigninActivity.this, ActivityGoogleMap.class));
                 break;
             default:
                 break;

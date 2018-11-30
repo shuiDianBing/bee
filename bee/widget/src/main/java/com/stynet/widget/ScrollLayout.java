@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.OverScroller;
 import android.widget.Scroller;
 
 /**
@@ -23,12 +24,13 @@ import android.widget.Scroller;
  * Android 自定义ScrollView 支持惯性滑动，惯性回弹效果。支持上拉加载更多 https://blog.csdn.net/xufeifandj/article/details/48415889
  * ScrollView实现以惯性滑动的形式滑动到任意位置/禁止惯性滑动/监听惯性滑动 https://www.jianshu.com/p/0c99fb893b35
  * ScrollView源码分析 https://www.jianshu.com/p/c3ed4253f87e
+ * Android  View视图系统分析和Scroller和OverScroller分析 https://www.cnblogs.com/zsychanpin/p/6945371.html
  **/
 
 public class ScrollLayout extends ViewGroup {
-    private Scroller scroller;//弹性滑动对象，用于实现View的弹性滑动
+    private OverScroller overScroller;//弹性滑动对象，用于实现View的弹性滑动
     private VelocityTracker velocityTracker;// 速度轨迹追踪
-    private int width,height;//子View的高度
+    private int width,height;
     private float x,y;
     private float speed = 0x200;//滑动视图的速率
     private int pointerId;
@@ -52,7 +54,7 @@ public class ScrollLayout extends ViewGroup {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ScrollLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        scroller = new Scroller(context);
+        overScroller = new OverScroller(context);
         setFocusable(true);
         setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
         setWillNotDraw(false);
@@ -115,20 +117,21 @@ public class ScrollLayout extends ViewGroup {
                 pointerId = event.getPointerId(0);
                 velocityTracker.clear();
                 velocityTracker.addMovement(event);
-                if(!scroller.isFinished())
-                    scroller.abortAnimation();//终止滑动
+                if(!overScroller.isFinished())
+                    overScroller.abortAnimation();//终止滑动
                 break;
             case MotionEvent.ACTION_MOVE:
                 velocityTracker.addMovement(event);
                 float monevX = event.getX()- x;
                 float monevY = event.getY()- y;
-                scrollTo(-(int)(event.getX()- x),-(int)(event.getY()- y));//每次从头开始不累计偏移量
-                scrollBy(0< getScrollX()- monevX ? width - getMeasuredWidth()+getPaddingRight()> getScrollX()- monevX ? -(int)monevX :0:0,0);
+                //scrollTo(-(int)(event.getX()- x),-(int)(event.getY()- y));//每次从头开始不累计偏移量
+                //手势拖动 << 方式1
+                scrollBy(0< getScrollX()- monevX ? width - getMeasuredWidth()+ getPaddingRight()> getScrollX()- monevX ? -(int)monevX :0:0,0);
                         //0< getScrollY()- monevY ? height > getScrollY()- monevY ? -(int)monevY : getPaddingBottom()- getHeight() :0);
-                //方式1
-                //scroller.startScroll(getScrollX(),getScrollY(),0< getScrollX()- monevX ? width - getMeasuredWidth()+getPaddingRight()> getScrollX()- monevX ? -(int)monevX :0:0,
-                //        -(int)(event.getY()- y),0x0);
-                //invalidate();
+                //手势拖动 << 方式2
+//                overScroller.startScroll(getScrollX(),getScrollY(),0< getScrollX()- monevX ? width - getMeasuredWidth()+getPaddingRight()> getScrollX()- monevX ? -(int)monevX :0:0,
+//                        -(int)(event.getY()- y),0x0);
+//                invalidate();
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL://惯性滑动
@@ -136,14 +139,10 @@ public class ScrollLayout extends ViewGroup {
                 float xVelocity = velocityTracker.getXVelocity();//获取X方向手指滑动的速度，之前必须调用computeCurrentVelocity（）方法
                 float yVelocity = velocityTracker.getXVelocity();//获取X方向手指滑动的速度，之前必须调用computeCurrentVelocity（）方法
                 //TODO 惯性滑动
-//                int initialVelocity = (int) velocityTracker.getXVelocity(mActivePointerId);
-//                //如果有有效的加速度
-//                if ((Math.abs(initialVelocity) > mminimumvelocity)) //处理带有加速度的滑动事件
-//                    flingWithNestedDispatch(-initialVelocity);
-//                else if (mScroller.springBack(mScrollX, mScrollY, 0, 0, 0, getScrollRange()))
-                    postInvalidateOnAnimation();
-                scroller.startScroll(getScrollX(),0,-getScrollX()-(int)xVelocity,0,0x200);//up 时自动滚动到
-                invalidate();
+                int inertiaX = getScrollX()-(int)xVelocity;
+                int inertiaY = getScrollY()-(int)yVelocity;
+                overScroller.startScroll(getScrollX(),0,0< inertiaX ? width > inertiaX ? inertiaX : width - getMeasuredWidth()+ getPaddingRight() : 0,0,0x200);//up 时自动滚动到
+                //invalidate();//postInvalidateOnAnimation();
                 velocityTracker.recycle();
                 velocityTracker = null;
                 break;
@@ -162,8 +161,8 @@ public class ScrollLayout extends ViewGroup {
     @Override
     public void computeScroll() {
         super.computeScroll();
-        if (scroller.computeScrollOffset()) {
-            scrollTo(scroller.getCurrX(), scroller.getCurrY());
+        if (overScroller.computeScrollOffset()) {
+            scrollTo(overScroller.getCurrX(), overScroller.getCurrY());
             postInvalidate();
         }
     }

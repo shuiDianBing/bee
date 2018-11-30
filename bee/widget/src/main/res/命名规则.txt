@@ -987,3 +987,38 @@
                                     315          ->    frame_virtual_rectangle_gradient_linear_corners_bottom_angle315
                                     360          ->    frame_virtual_rectangle_gradient_linear_corners_bottom_angle360
 0x1<<线条 << linear
+    0x11<<实线
+        0x111<<水平<< level
+            0x1111<< 上 << linear_level_top
+            0x1112<< 中 << linear_level_center
+            0x1113<< 下 << linear_level_bottom
+            0x1114<< 渐变 << linear_level_gradient
+                上               ->              linear_level_top
+                中               ->              linear_level_center
+                下               ->              linear_level_bottom
+        0x112<<垂直<< vertical
+            0x1121<< 左 << linear_vertical_top
+            0x1122<< 中 << linear_vertical_center
+            0x1123<< 右 << linear_vertical_bottom
+            0x1114<< 渐变 << linear_vertical_gradient
+                上               ->              linear_vertical_top
+                中               ->              linear_vertical_center
+                下               ->              linear_vertical_bottom
+    0x11<<虚线<< linear_virtual
+        0x111<<水平<< linear_virtual_level
+            0x1111<< 上 << linear_virtual__level_top
+            0x1112<< 中 << linear_virtual__level_center
+            0x1113<< 下 << linear_virtual__level_bottom
+            0x1114<< 渐变 << linear_virtual__level_gradient
+                上               ->              linear_virtual__level_top
+                中               ->              linear_virtual__level_center
+                下               ->              linear_virtual__level_bottom
+        0x112<<垂直<< linear_virtual_vertical
+            0x1121<< 左 << linear_virtual_vertical_top
+            0x1122<< 中 << linear_virtual_vertical_center
+            0x1123<< 右 << linear_virtual_vertical_bottom
+            0x1114<< 渐变 << linear_virtual_vertical_gradient
+                上               ->              linear_virtual_vertical_top
+                中               ->              linear_virtual_vertical_center
+                下               ->              linear_virtual_vertical_bottom
+

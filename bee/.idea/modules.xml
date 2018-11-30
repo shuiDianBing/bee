@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/bee.iml" filepath="$PROJECT_DIR$/bee.iml" />
       <module fileurl="file://$PROJECT_DIR$/frameset/frameset.iml" filepath="$PROJECT_DIR$/frameset/frameset.iml" />
       <module fileurl="file://$PROJECT_DIR$/imageRecognition/imageRecognition.iml" filepath="$PROJECT_DIR$/imageRecognition/imageRecognition.iml" />
+      <module fileurl="file://$PROJECT_DIR$/map/map.iml" filepath="$PROJECT_DIR$/map/map.iml" />
       <module fileurl="file://$PROJECT_DIR$/opticalCharacterRecognition/opticalCharacterRecognition.iml" filepath="$PROJECT_DIR$/opticalCharacterRecognition/opticalCharacterRecognition.iml" />
       <module fileurl="file://$PROJECT_DIR$/widget/widget.iml" filepath="$PROJECT_DIR$/widget/widget.iml" />
     </modules>
