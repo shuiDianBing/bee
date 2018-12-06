@@ -38,23 +38,29 @@ public final class Geocoding {
     }
     /**
      * 逆地理编码 得到地址
+     * 【从 0 开始开发一款直播 APP】15 Android 定位详解之 LocationManager & Geocoder 实现直播定位 https://www.jianshu.com/p/2976f51408c5
+     * demo例子 https://github.com/angelOnly/LiveStreaming
      * @param context
      * @param latitude
      * @param longitude
      * @return ●
      */
     public static final Address getAddress(Context context,double latitude,double longitude){
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        Geocoder geocoder = new Geocoder(context,Locale.getDefault());
+        geocoder.isPresent();
         try {
             List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
-            Log.i("location", "current position" + addresses + "'\n"
-                            + " longitude<<" + String.valueOf(addresses.get(0).getLongitude()) + "\n"
-                            + "latitude<<" + String.valueOf(addresses.get(0).getLatitude()) + "\n"
-                            + "country<<" + addresses.get(0).getCountryName() + "\n"
-                            + "city<<" + addresses.get(0).getLocality() + "\n"
-                            + "nam<<" + addresses.get(0).getAddressLine(1) + "\n"
-                            + "street<<" + addresses.get(0).getAddressLine(0));
-            return addresses.get(0);
+            geocoder.isPresent();
+            if(0< addresses.size()) {
+                Log.i("location", "current position" + addresses + "'\n"
+                        + " longitude<<" + String.valueOf(addresses.get(0).getLongitude()) + "\n"
+                        + "latitude<<" + String.valueOf(addresses.get(0).getLatitude()) + "\n"
+                        + "country<<" + addresses.get(0).getCountryName() + "\n"
+                        + "city<<" + addresses.get(0).getLocality() + "\n"
+                        + "nam<<" + addresses.get(0).getAddressLine(1) + "\n"
+                        + "street<<" + addresses.get(0).getAddressLine(0));
+                return addresses.get(0);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

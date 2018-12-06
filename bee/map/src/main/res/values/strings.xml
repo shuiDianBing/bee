@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Map</string>
     <string name="location">location</string>
+    <string name="uninstalledGooglePlayService">uninstalled google play service</string>
+    <string name="connectionFail">connection fail</string>
     <string name="backgroundPositioning">Background positioning</string>
     <string name="warmPrompt">warm prompt</string>
     <string name="whetherTheJumpSettingTurnsOnGPS">Whether the jump setting turns on GPS</string>

@@ -55,7 +55,7 @@ public class ActivityGoogleMap extends ActivityMap {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_map);
-        startActivity(new Intent(this,com.stynet.map.view.ActivityGoogleMap.class));
+        startActivity(new Intent(this,ActivityGoogleMapView.class));//com.stynet.map.view.ActivityGoogleMap.class));
         if(null == map)
             ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(new OnMapReadyCallback(){
                 @Override

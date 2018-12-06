@@ -145,7 +145,7 @@ public class ActivityGoogleMap extends ActivityMap {
         getIntent().putExtra(LOCATION,location);
         Address address = Geocoding.getAddress(this,location.getLatitude(),location.getLongitude());
         googleMap.addMarker(new MarkerOptions().position(latlng).zIndex(0.0f).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_circle_brain)).
-                anchor(0.5f, 1).infoWindowAnchor(0.5f, 0).title(address.getLocality()).snippet("lat = "+ latlng.latitude +
+                anchor(0.5f, 1).infoWindowAnchor(0.5f, 0).title("current").snippet("lat = "+ latlng.latitude +
                 ",lng = "+latlng.longitude).draggable(true).visible(true).flat(false).rotation(0).alpha(1));
     }
     //开始结束雷达侦测动画
@@ -195,7 +195,7 @@ public class ActivityGoogleMap extends ActivityMap {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mapRipple.isAnimationRunning())
+        if(null != mapRipple && mapRipple.isAnimationRunning())
             mapRipple.stopRippleMapAnimation();
     }
 }

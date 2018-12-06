@@ -1,5 +1,6 @@
 package com.stynet.map.assist;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -13,7 +14,6 @@ import android.support.annotation.RequiresPermission;
 import android.util.Log;
 
 import com.stynet.map.R;
-import com.stynet.map.service.LocationService;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -36,8 +36,16 @@ public class LocationServer {
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
         criteria.setAltitudeRequired(true);//海拔
         criteria.setCostAllowed(true);//允许产生资费
+        criteria.setBearingAccuracy(Criteria.ACCURACY_HIGH);//设置方位精度参数：Criteria.NO_REQUIREMENT 无, Criteria.ACCURACY_LOW 低, Criteria.ACCURACY_HIGH 高
+        criteria.setBearingRequired(true);//指示是否要求方位信息
+        criteria.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);//设置水平方向精准度
+        criteria.setVerticalAccuracy(Criteria.ACCURACY_FINE);//设置垂直方向精准度
+        criteria.setPowerRequirement(Criteria.POWER_MEDIUM);//设置电池消耗要求 参数：Criteria.NO_REQUIREMENT 无, Criteria.POWER_LOW 低, Criteria.POWER_MEDIUM 中, Criteria.POWER_HIGH 高。
+        criteria.setSpeedAccuracy(Criteria.ACCURACY_HIGH);//设置速度精度
+        criteria.setSpeedRequired(true);//是否要求速度信息
         locationManager.getBestProvider(criteria,true);
     }
+    @SuppressLint("MissingPermission")
     @RequiresPermission(anyOf = {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION})
     public void gps(LocationListener listener){
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
@@ -45,6 +53,7 @@ public class LocationServer {
         else
             Log.e(TAG,"gps<<未开启gps");
     }
+    @SuppressLint("MissingPermission")
     @RequiresPermission(anyOf = {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION})
     public void worknet(LocationListener listener){
         if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
@@ -52,6 +61,7 @@ public class LocationServer {
         else
             Log.e(TAG,"worknet<<未开启网络定位");
     }
+    @SuppressLint("MissingPermission")
     @RequiresPermission(anyOf = {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION})
     public void gpsWorknet(LocationListener listener){
         gps(listener);

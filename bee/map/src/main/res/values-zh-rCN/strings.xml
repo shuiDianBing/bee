@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">地图</string>
     <string name="location">location</string>
+    <string name="uninstalledGooglePlayService">未安装google play service</string>
+    <string name="connectionFail">连接失败</string>
     <string name="backgroundPositioning">后台定位中</string>
     <string name="warmPrompt">温馨提示</string>
     <string name="whetherTheJumpSettingTurnsOnGPS">是否跳转设置开启gps</string>
