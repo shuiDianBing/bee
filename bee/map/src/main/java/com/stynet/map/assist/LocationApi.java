@@ -19,6 +19,7 @@ import com.stynet.map.R;
 
 /**
  * Created by xx shuiDianBing, 2018/12/06-15:52:15:52.Refer to the website: nullptr
+ * android 定位更新 （Google LocationRequest）https://www.cnblogs.com/CharlesGrant/p/8242413.html
  * Google Play服务版本12.0.0之前可用
  **/
 
@@ -26,7 +27,8 @@ public class LocationApi {
     private static final String TAG = LocationApi.class.getName();
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
-    public LocationApi(final Activity activity,final LocationListener locationListener){
+    private LocationListener locationListener;
+    public LocationApi(final Activity activity,final LocationListener listener){
         googleApiClient = new GoogleApiClient.Builder(activity).addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
             @Override
             public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -39,7 +41,7 @@ public class LocationApi {
             public void onConnected(@Nullable Bundle bundle) {
                 if(googleApiClient.isConnected()) {
                     Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-                    LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, locationListener);
+                    LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, locationListener = listener);
                 }
             }
 
@@ -50,12 +52,12 @@ public class LocationApi {
                 setInterval(0xfa0).setFastestInterval(0x3e8);
     }
     @SuppressLint("MissingPermission")
-    public void requestLocationUpdate(LocationListener locationListener){
+    public void requestLocationUpdate(){
         if(null != googleApiClient && null != locationRequest && null != locationListener && googleApiClient.isConnected())
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,locationRequest,locationListener);
     }
     @SuppressLint("MissingPermission")
-    public void requestLocation(LocationListener locationListener){
+    public void requestLocation(){
         if(googleApiClient.isConnected())
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,locationRequest,locationListener);
         else if(googleApiClient.isConnecting())
@@ -64,7 +66,7 @@ public class LocationApi {
             googleApiClient.connect();
     }
     @SuppressLint("MissingPermission")
-    public void stopUpdate(LocationListener locationListener){
+    public void stopUpdate(){
         if(googleApiClient.isConnected())
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,locationRequest,locationListener);
     }

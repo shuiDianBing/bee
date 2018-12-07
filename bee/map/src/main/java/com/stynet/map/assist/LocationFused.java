@@ -30,6 +30,7 @@ import com.stynet.map.R;
 
 /**
  * Created by xx shuiDianBing, 2018/12/06-13:45:13:45.Refer to the website: nullptr
+ * android 定位更新 （Google LocationRequest）https://www.cnblogs.com/CharlesGrant/p/8242413.html
  * Android的LocationServices.FusedLocationApi已弃用 http://androidcookie.com/androidlocationservices-fusedlocationapi.html
  * 请继续使用FusedLocationProviderApi类，并且不要迁移到FusedLocationProviderClient类，直到Google Play服务版本12.0.0可用
  * （预计将在2018年初发布）。在版本12.0.0之前使用FusedLocationProviderClient会导致客户端应用程序在Google Play服务已在设备上更新
@@ -65,9 +66,10 @@ public final class LocationFused {
             @Override
             public void onConnectionSuspended(int i) {}
         }).addApi(LocationServices.API).addApi(Places.PLACE_DETECTION_API).addApi(Places.GEO_DATA_API).build();
-        locationRequest = LocationRequest.create().setPriority(LocationRequest.CONTENTS_FILE_DESCRIPTOR).setSmallestDisplacement(1).
+        locationRequest = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setSmallestDisplacement(1).
                 setInterval(0xfa0).setFastestInterval(0x3e8);
         this.locationCallback = locationCallback;
+        requestLocationUpdate(activity);
     }
     @SuppressLint({"RestrictedApi", "MissingPermission"})
     public void requestLocationUpdate(final Activity activity){

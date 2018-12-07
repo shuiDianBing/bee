@@ -8,6 +8,8 @@
         <activity android:name=".ActivityPreview"/>
         <activity android:name=".view.ActivityGoogleMap"/>
         <activity android:name=".view.ActivityGoogleMapView"/>
+        <activity android:name=".view.ActivityGoogleMapPolylines"/>
+        <activity android:name=".view.ActivityGoogleMapRail"/>
 
         <service android:name=".service.LocationService" android:priority = "1000">
             <intent-filter><action android:name="${applicationId}.serve.LocationService"/></intent-filter>

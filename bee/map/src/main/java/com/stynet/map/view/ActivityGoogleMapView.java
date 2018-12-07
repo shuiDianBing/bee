@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.Looper;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -19,15 +17,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.PlaceLikelihood;
-import com.google.android.gms.location.places.PlaceLikelihoodBufferResponse;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -49,6 +44,7 @@ import com.stynet.map.R;
  * demo https://gitee.com/amqr/gmap
  * Android利用谷歌地图获取并解析经纬度对应的地理位置 https://blog.csdn.net/csdn319414/article/details/78563936
  * 集成GoogleMap,实现定位和获取位置信息 https://github.com/Linyaodai/MyLocationDemo
+ * Android Google 地图 API for Android https://www.cnblogs.com/zhujiabin/p/7570960.html
  **/
 
 public class ActivityGoogleMapView extends ActivityMap {
@@ -87,7 +83,7 @@ public class ActivityGoogleMapView extends ActivityMap {
                 googleMap.getUiSettings().setZoomControlsEnabled(true);//手势缩放
                 googleMap.getUiSettings().setScrollGesturesEnabled(true);//手势拖动
                 googleMap.getUiSettings().setMapToolbarEnabled(false);//禁用精简模式下右下角的工具栏
-                googleMap.animateCamera(CameraUpdateFactory.zoomBy(16));//缩放级别
+                googleMap.animateCamera(CameraUpdateFactory.zoomBy(0x10));//缩放级别
                 LatLng latlng = new LatLng(37.984443, 23.733131);//3.121139,101.675245);
                 googleMap.addMarker(new MarkerOptions().position(latlng).zIndex(0.0f).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_side_brain)).
                         anchor(0.5f, 1).infoWindowAnchor(0.5f, 0).title("default").snippet("lat = 37.984443,lng = 23728190").draggable(true).visible(true).flat(false).
@@ -124,21 +120,28 @@ public class ActivityGoogleMapView extends ActivityMap {
                     * android 定位更新 （Google LocationRequest）https://www.cnblogs.com/CharlesGrant/p/8242413.html
                     * 如何解决无法使用设备开启位置权限？ https://cloud.tencent.com/developer/ask/129350
                     * */
-                    moveLocationPlace(LocationServices.FusedLocationApi.getLastLocation(googleApiClient));
+                    /*moveLocationPlace(LocationServices.FusedLocationApi.getLastLocation(googleApiClient));
                     //if (googleApiClient.isConnected())//start location
                     LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, new LocationListener() {
                         @Override
                         public void onLocationChanged(Location location) {
                             moveLocationPlace(location);
                         }
-                    });
+                    });*/
 //                    LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, new LocationListener() {
 //                        @Override
 //                        public void onLocationChanged(Location location) {}
 //                    });
                     Task<Location> task = LocationServices.getFusedLocationProviderClient(ActivityGoogleMapView.this).getLastLocation();
-                    if(null != task && task.isSuccessful())
-                        moveLocationPlace(task.getResult());
+                    task.addOnCompleteListener(ActivityGoogleMapView.this, new OnCompleteListener<Location>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Location> task) {
+                            if(task.isSuccessful())
+                                moveLocationPlace(task.getResult());
+                            else
+                                Log.e("ActivityGoogleMapView", "Exception: %s", task.getException());
+                        }
+                    });
                     LocationServices.getFusedLocationProviderClient(ActivityGoogleMapView.this).requestLocationUpdates(locationRequest,new LocationCallback(){
                         @Override
                         public void onLocationResult(LocationResult locationResult) {

@@ -36,6 +36,8 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.RoundCap;
+import com.stynet.map.view.ActivityGoogleMapPolylines;
+import com.stynet.map.view.ActivityGoogleMapRail;
 import com.stynet.map.view.ActivityGoogleMapView;
 import com.stynet.map.view.ActivityMap;
 
@@ -45,6 +47,10 @@ import java.util.List;
 /**
  * Created by xx shuiDianBing, 2018/11/27-10:42:10:42.Refer to the website: nullptr
  * Android GoogleMap定位集成 https://www.jianshu.com/p/f5c2fc714a0c
+ * Google 地图 API for Android http://www.mamicode.com/info-detail-1711463.html
+ * Android Google 地图 API for Android https://www.cnblogs.com/zhujiabin/p/7570960.html
+ * Google 地图 API for Android https://www.cnblogs.com/gvlthu23061/p/7315689.html
+ * Fused Location Provider: Is there a way to check if a location update failed? https://stackoverflow.com/questions/35830987/fused-location-provider-is-there-a-way-to-check-if-a-location-update-failed/35833552
  **/
 
 public class ActivityGoogleMap extends ActivityMap {
@@ -55,7 +61,7 @@ public class ActivityGoogleMap extends ActivityMap {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_map);
-        startActivity(new Intent(this,ActivityGoogleMapView.class));//com.stynet.map.view.ActivityGoogleMap.class));
+        startActivity(new Intent(this,ActivityGoogleMapPolylines.class));//com.stynet.map.view.ActivityGoogleMap.class));
         if(null == map)
             ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(new OnMapReadyCallback(){
                 @Override
