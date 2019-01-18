@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.v4.view.VelocityTrackerCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
@@ -25,18 +27,19 @@ import android.widget.Scroller;
  * ScrollView实现以惯性滑动的形式滑动到任意位置/禁止惯性滑动/监听惯性滑动 https://www.jianshu.com/p/0c99fb893b35
  * ScrollView源码分析 https://www.jianshu.com/p/c3ed4253f87e
  * Android  View视图系统分析和Scroller和OverScroller分析 https://www.cnblogs.com/zsychanpin/p/6945371.html
+ * 自定义控件的惯性滑动 https://www.jianshu.com/p/57ce979b23e8
  **/
 
 public class ScrollLayout extends ViewGroup {
+    private static final String TAG = ScrollLayout.class.getName();
     private OverScroller overScroller;//弹性滑动对象，用于实现View的弹性滑动
     private VelocityTracker velocityTracker;// 速度轨迹追踪
     private int width,height;
     private float x,y;
     private float speed = 0x200;//滑动视图的速率
-    private int pointerId;
+    private int scrollPointerId =-1;
     private int mtouchslop;
-    private int mminimumVelocity;
-    private int mMaximumVelocity;
+    private int minFlingVelocity,maxFlingVelocity;
     private int overscrollDistance;
     private int overflingDistance;
 
@@ -60,8 +63,8 @@ public class ScrollLayout extends ViewGroup {
         setWillNotDraw(false);
         final ViewConfiguration configuration = ViewConfiguration.get(context);
         mtouchslop = configuration.getScaledTouchSlop();//被认为是滑动操作的最小距离
-        mminimumVelocity = configuration.getScaledMinimumFlingVelocity();//最小加速度
-        mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();//最大加速度
+        minFlingVelocity = configuration.getScaledMinimumFlingVelocity();//最小加速度
+        maxFlingVelocity = configuration.getScaledMaximumFlingVelocity();//最大加速度
         overscrollDistance = configuration.getScaledOverscrollDistance();//用手指拖动超过边缘的最大距离
         overflingDistance = configuration.getScaledOverflingDistance();//滑动超过边缘的最大距离
     }
@@ -112,16 +115,18 @@ public class ScrollLayout extends ViewGroup {
     public boolean onTouchEvent(MotionEvent event) {
         if(null == velocityTracker)
             velocityTracker = VelocityTracker.obtain();
+        velocityTracker.addMovement(event);
+        boolean eventAddedToVelocityTracker = false;
+        final MotionEvent cloneEvent = MotionEvent.obtain(event);
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                pointerId = event.getPointerId(0);
+                scrollPointerId = event.getPointerId(0);
                 velocityTracker.clear();
                 velocityTracker.addMovement(event);
                 if(!overScroller.isFinished())
                     overScroller.abortAnimation();//终止滑动
                 break;
             case MotionEvent.ACTION_MOVE:
-                velocityTracker.addMovement(event);
                 float monevX = event.getX()- x;
                 float monevY = event.getY()- y;
                 //scrollTo(-(int)(event.getX()- x),-(int)(event.getY()- y));//每次从头开始不累计偏移量
@@ -135,26 +140,32 @@ public class ScrollLayout extends ViewGroup {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL://惯性滑动
-                velocityTracker.computeCurrentVelocity(0x20,0x20);
-                float xVelocity = velocityTracker.getXVelocity();//获取X方向手指滑动的速度，之前必须调用computeCurrentVelocity（）方法
-                float yVelocity = velocityTracker.getXVelocity();//获取X方向手指滑动的速度，之前必须调用computeCurrentVelocity（）方法
-                //TODO 惯性滑动
-                int inertiaX = getScrollX()-(int)xVelocity;
-                int inertiaY = getScrollY()-(int)yVelocity;
-                overScroller.startScroll(getScrollX(),0,0< inertiaX ? width > inertiaX ? inertiaX : width - getMeasuredWidth()+ getPaddingRight() : 0,0,0x200);//up 时自动滚动到
-                //invalidate();//postInvalidateOnAnimation();
-                velocityTracker.recycle();
-                velocityTracker = null;
-                break;
+                velocityTracker.addMovement(cloneEvent);
+                velocityTracker.computeCurrentVelocity(0x400,maxFlingVelocity);
+                float xVelocity = -velocityTracker.getXVelocity(scrollPointerId);//获取X方向手指滑动的速度，之前必须调用computeCurrentVelocity（）方法
+                float yVelocity = velocityTracker.getXVelocity(scrollPointerId);//获取X方向手指滑动的速度，之前必须调用computeCurrentVelocity（）方法
+                Log.i(TAG, "onTouchEvent<<速度取值<<xVelocity=" + xVelocity+"<<yVelocity="+yVelocity);
+//                //TODO 惯性滑动
+//                int inertiaX = (int)(event.getX()- x);
+//                int inertiaY = getScrollY()-(int)yVelocity;
+//                overScroller.startScroll(getScrollX(),0,0< inertiaX ? width > inertiaX ? inertiaX : width - getMeasuredWidth()+ getPaddingRight() : 0,0,0x200);//up 时自动滚动到
+//                //invalidate();//postInvalidateOnAnimation();
+//                velocityTracker.recycle();
+//                velocityTracker = null;
+                overScroller.fling(0, 0, Math.abs(xVelocity)> minFlingVelocity ?(int)Math.max(-maxFlingVelocity,Math.min(xVelocity, maxFlingVelocity)):0,
+                        0, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                velocityTracker.clear();
+            break;
             case MotionEvent.ACTION_POINTER_UP:
                 int pointerIndexLeave = event.getActionIndex();
-                if (pointerId == event.getPointerId(pointerIndexLeave))// 离开屏幕的正是目前的有效手指，此处需要重新调整，并且需要重置VelocityTracker
-                    pointerId = event.getPointerId(pointerIndexLeave == 0 ? 1 : 0);
+                if (scrollPointerId == event.getPointerId(pointerIndexLeave))// 离开屏幕的正是目前的有效手指，此处需要重新调整，并且需要重置VelocityTracker
+                    scrollPointerId = event.getPointerId(pointerIndexLeave == 0 ? 1 : 0);
                 break;
         }
         // 调整触摸位置，防止出现跳动
         x = event.getX();
         y = event.getY();
+        cloneEvent.recycle();
         return true;//super.onInterceptTouchEvent(event);
     }
 

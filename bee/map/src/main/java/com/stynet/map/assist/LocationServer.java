@@ -25,6 +25,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class LocationServer {
     private final String TAG = LocationServer.class.getName();
     private LocationManager locationManager;
+    private LocationListener locationListener;
     private float minDistance = 0;//位置更新之间的最小距离，单位为米
     private int rest = 0x3e8;//默认1000毫秒，定位间隔
 
@@ -47,25 +48,25 @@ public class LocationServer {
     }
     @SuppressLint("MissingPermission")
     @RequiresPermission(anyOf = {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION})
-    public void gps(LocationListener listener){
+    public void gps(){
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, rest, minDistance,listener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, rest, minDistance,locationListener);
         else
             Log.e(TAG,"gps<<未开启gps");
     }
     @SuppressLint("MissingPermission")
     @RequiresPermission(anyOf = {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION})
-    public void worknet(LocationListener listener){
+    public void worknet(){
         if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, rest, minDistance, listener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, rest, minDistance, locationListener);
         else
             Log.e(TAG,"worknet<<未开启网络定位");
     }
     @SuppressLint("MissingPermission")
     @RequiresPermission(anyOf = {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION})
-    public void gpsWorknet(LocationListener listener){
-        gps(listener);
-        worknet(listener);
+    public void gpsWorknet(){
+        gps();
+        worknet();
     }
 
     /**
@@ -83,5 +84,12 @@ public class LocationServer {
                 setWhen(System.currentTimeMillis());// 设置该通知发生的时间
         Notification notification = builder.build();
         notification.defaults = Notification.DEFAULT_SOUND; //设置为默认的声音
+    }
+    public void stopLocation(){
+        locationManager.removeUpdates(locationListener);
+    }
+
+    public void setLocationListener(LocationListener locationListener) {
+        this.locationListener = locationListener;
     }
 }

@@ -13,6 +13,7 @@ import com.stynet.bee.viewLayer.activity.HomeActivity;
 import com.stynet.bee.viewLayer.activity.SigninActivity;
 import com.stynet.frameset.Printf;
 import com.stynet.frameset.storage.SharedXml;
+import com.stynet.frameset.tool.PhoneUtils;
 
 import java.util.concurrent.TimeUnit;
 

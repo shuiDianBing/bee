@@ -25,6 +25,8 @@ import com.stynet.map.assist.LocationFused;
 /**
  * Created by xx shuiDianBing, 2018/11/29-09:12:09:12.Refer to the website: nullptr
  * android GoogleMap画导航线路图 路径规划 https://blog.csdn.net/zhan10001/article/details/78461477
+ * android和ios GoogleMap画导航线路图 路径规划（Directions）https://blog.csdn.net/mad1989/article/details/9734667
+ * android和ios GoogleMap画导航线路图路径规划（Directions） http://www.voidcn.com/article/p-ykijattk-bqt.html
  **/
 
 public class ActivityGoogleMapPolylines extends ActivityMap {

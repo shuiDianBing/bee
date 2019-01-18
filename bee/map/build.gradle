@@ -30,8 +30,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.google.android.gms:play-services-maps:12.0.1'
     //Android Studio返回“无法找到play-services-ads.aar” https://stackoverflow.com/questions/50773178/android-studio-returns-could-not-find-play-services-ads-aar
     //在项目级的build.gradle中allprojects.repositories中添加google()or maven{url "https://maven.google.com/"}放在jcenter()的前面
-    compile 'com.google.android.gms:play-services:12.0.1'
+    //compile 'com.google.android.gms:play-services:12.0.1'
+    implementation 'com.google.android.gms:play-services-maps:12.0.1'
+    implementation 'com.google.android.gms:play-services-location:12.0.1'//Google Service 集成所遇到的坑 https://blog.csdn.net/a34927341/article/details/53330489
+    //com.google.android.gms.location.places无法导入问题参考<<https://stackoverflow.com/questions/30968189/android-studio-can-not-resolve-com-google-android-gms-location-places-autocomple
+    implementation 'com.google.android.gms:play-services-places:12.0.1'//位置服务
 }

@@ -3,6 +3,10 @@ package com.stynet.map.view;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
@@ -21,10 +25,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.stynet.map.R;
 import com.stynet.map.assist.Geocoding;
 import com.stynet.map.assist.LocationServer;
+import com.stynet.map.assist.SensoryNeurons;
 import com.stynet.map.vfx.MapRadar;
 import com.stynet.map.vfx.MapRipple;
 
@@ -40,6 +46,10 @@ public class ActivityGoogleMap extends ActivityMap {
     private final int ANIMATION_TYPE_RADAR = 1;
     private MapRipple mapRipple;
     private MapRadar mapRadar;
+    private SensorManager sensorManager;
+    private LocationServer locationServer;
+    private SensorEventListener sensorEventListener;
+    private Marker locationMarker;
     private int whichAnimationWasRunning = ANIMATION_TYPE_RIPPLE;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,11 +114,23 @@ public class ActivityGoogleMap extends ActivityMap {
         });
     }
     private void startLocation(final GoogleMap googleMap){
-        new LocationServer((LocationManager) getSystemService(LOCATION_SERVICE),0,1000).gpsWorknet(new LocationListener() {
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);//获取传感器管理服务
+        sensorEventListener =  new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                if(null != locationMarker)
+                    locationMarker.setRotation(event.values[SensorManager.DATA_X]);
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+        };
+        sensorManager.registerListener(sensorEventListener,sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_GAME);
+        locationServer = new LocationServer((LocationManager) getSystemService(LOCATION_SERVICE),0,1000);
+        locationServer.setLocationListener(new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                if(null != location)
-                    fixedPoint(googleMap,location);
+                fixedPoint(googleMap,location);
             }
 
             @Override
@@ -120,6 +142,7 @@ public class ActivityGoogleMap extends ActivityMap {
             @Override
             public void onProviderDisabled(String provider) {}
         });
+        locationServer.gpsWorknet();
         googleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
@@ -144,9 +167,11 @@ public class ActivityGoogleMap extends ActivityMap {
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng,0x10));
         getIntent().putExtra(LOCATION,location);
         Address address = Geocoding.getAddress(this,location.getLatitude(),location.getLongitude());
-        googleMap.addMarker(new MarkerOptions().position(latlng).zIndex(0.0f).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_circle_brain)).
-                anchor(0.5f, 1).infoWindowAnchor(0.5f, 0).title("current").snippet("lat = "+ latlng.latitude +
-                ",lng = "+latlng.longitude).draggable(true).visible(true).flat(false).rotation(0).alpha(1));
+        if(null != locationMarker)
+            locationMarker.remove();
+        locationMarker = googleMap.addMarker(new MarkerOptions().position(latlng).zIndex(0.0f).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_face)).
+                anchor(0.5f, 0.72f).infoWindowAnchor(0.5f, 0).title("current").snippet("lat = "+ latlng.latitude +
+                ",lng = "+latlng.longitude).draggable(true).visible(true).flat(true).rotation(0).alpha(1));
     }
     //开始结束雷达侦测动画
     public void startstopAnimation(View view) {
@@ -190,6 +215,19 @@ public class ActivityGoogleMap extends ActivityMap {
         mapRipple.startRippleMapAnimation();
         //startstoprippleBtn.setText("Stop Animation");
         whichAnimationWasRunning = ANIMATION_TYPE_RIPPLE;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(null != sensorManager)
+            sensorManager.registerListener(sensorEventListener,sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_GAME);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        sensorManager.unregisterListener(sensorEventListener);
     }
 
     @Override

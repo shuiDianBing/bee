@@ -45,6 +45,7 @@ import com.stynet.map.R;
  * Android利用谷歌地图获取并解析经纬度对应的地理位置 https://blog.csdn.net/csdn319414/article/details/78563936
  * 集成GoogleMap,实现定位和获取位置信息 https://github.com/Linyaodai/MyLocationDemo
  * Android Google 地图 API for Android https://www.cnblogs.com/zhujiabin/p/7570960.html
+ * Google 地图 API for Android https://blog.csdn.net/kmyhy/article/details/60344699
  **/
 
 public class ActivityGoogleMapView extends ActivityMap {
