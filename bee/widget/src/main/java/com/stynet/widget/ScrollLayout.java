@@ -28,6 +28,7 @@ import android.widget.Scroller;
  * ScrollView源码分析 https://www.jianshu.com/p/c3ed4253f87e
  * Android  View视图系统分析和Scroller和OverScroller分析 https://www.cnblogs.com/zsychanpin/p/6945371.html
  * 自定义控件的惯性滑动 https://www.jianshu.com/p/57ce979b23e8
+ * Android Scroll详解(二)：OverScroller实战 https://www.jianshu.com/p/293d0c2f56cb    https://github.com/ztelur/ScrollProject
  **/
 
 public class ScrollLayout extends ViewGroup {
@@ -63,7 +64,7 @@ public class ScrollLayout extends ViewGroup {
         setWillNotDraw(false);
         final ViewConfiguration configuration = ViewConfiguration.get(context);
         mtouchslop = configuration.getScaledTouchSlop();//被认为是滑动操作的最小距离
-        minFlingVelocity = configuration.getScaledMinimumFlingVelocity();//最小加速度
+        minFlingVelocity = configuration.getScaledMinimumFlingVelocity()>>4;//最小加速度
         maxFlingVelocity = configuration.getScaledMaximumFlingVelocity();//最大加速度
         overscrollDistance = configuration.getScaledOverscrollDistance();//用手指拖动超过边缘的最大距离
         overflingDistance = configuration.getScaledOverflingDistance();//滑动超过边缘的最大距离
@@ -105,7 +106,7 @@ public class ScrollLayout extends ViewGroup {
                 //TODO 这里根据角度排列childView,此处插入根据角度算位置code
                 getChildAt(index).layout(((MarginLayoutParams)getChildAt(index).getLayoutParams()).leftMargin + width,
                         ((MarginLayoutParams)getChildAt(index).getLayoutParams()).topMargin + getPaddingTop(),
-                        width += getChildAt(index).getMeasuredWidth() -((MarginLayoutParams)getChildAt(index).getLayoutParams()).rightMargin,
+                        width += getChildAt(index).getMeasuredWidth(),// -((MarginLayoutParams)getChildAt(index).getLayoutParams()).rightMargin,
                         getChildAt(index).getMeasuredHeight() + getPaddingBottom()- ((MarginLayoutParams)getChildAt(index).getLayoutParams()).bottomMargin);
             }
         }
@@ -129,21 +130,24 @@ public class ScrollLayout extends ViewGroup {
             case MotionEvent.ACTION_MOVE:
                 float monevX = event.getX()- x;
                 float monevY = event.getY()- y;
+                float excursionX = 0< getScrollX()- monevX ? width - getMeasuredWidth()+ getPaddingRight()> getScrollX()- monevX ? -(int)monevX :0:0;//偏移
+                float excursionY = 0;//< getScrollX()- monevX ? width - getMeasuredWidth()+ getPaddingRight()> getScrollX()- monevX ? -(int)monevX :0:0;//偏移
                 //scrollTo(-(int)(event.getX()- x),-(int)(event.getY()- y));//每次从头开始不累计偏移量
                 //手势拖动 << 方式1
-                scrollBy(0< getScrollX()- monevX ? width - getMeasuredWidth()+ getPaddingRight()> getScrollX()- monevX ? -(int)monevX :0:0,0);
+                scrollBy((int)excursionX,(int)excursionY);
                         //0< getScrollY()- monevY ? height > getScrollY()- monevY ? -(int)monevY : getPaddingBottom()- getHeight() :0);
                 //手势拖动 << 方式2
 //                overScroller.startScroll(getScrollX(),getScrollY(),0< getScrollX()- monevX ? width - getMeasuredWidth()+getPaddingRight()> getScrollX()- monevX ? -(int)monevX :0:0,
 //                        -(int)(event.getY()- y),0x0);
 //                invalidate();
+                overScrollBy(0,(int)excursionX,(int)excursionY,getScrollY(),0,0xf,0,0xf,true);
                 break;
-            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_UP: 
             case MotionEvent.ACTION_CANCEL://惯性滑动
                 velocityTracker.addMovement(cloneEvent);
-                velocityTracker.computeCurrentVelocity(0x400,maxFlingVelocity);
-                float xVelocity = -velocityTracker.getXVelocity(scrollPointerId);//获取X方向手指滑动的速度，之前必须调用computeCurrentVelocity（）方法
-                float yVelocity = velocityTracker.getXVelocity(scrollPointerId);//获取X方向手指滑动的速度，之前必须调用computeCurrentVelocity（）方法
+                velocityTracker.computeCurrentVelocity(0x200,maxFlingVelocity);
+                float xVelocity = velocityTracker.getXVelocity(scrollPointerId);//获取X方向手指滑动的速度，之前必须调用computeCurrentVelocity（）方法
+                float yVelocity = velocityTracker.getYVelocity(scrollPointerId);//获取X方向手指滑动的速度，之前必须调用computeCurrentVelocity（）方法
                 Log.i(TAG, "onTouchEvent<<速度取值<<xVelocity=" + xVelocity+"<<yVelocity="+yVelocity);
 //                //TODO 惯性滑动
 //                int inertiaX = (int)(event.getX()- x);
@@ -152,8 +156,9 @@ public class ScrollLayout extends ViewGroup {
 //                //invalidate();//postInvalidateOnAnimation();
 //                velocityTracker.recycle();
 //                velocityTracker = null;
-                overScroller.fling(0, 0, Math.abs(xVelocity)> minFlingVelocity ?(int)Math.max(-maxFlingVelocity,Math.min(xVelocity, maxFlingVelocity)):0,
-                        0, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                //overScroller.fling(getScrollX(), getScrollY(), Math.abs(xVelocity)> minFlingVelocity ?(int)Math.max(-maxFlingVelocity,Math.min(xVelocity, maxFlingVelocity)):0,
+                //        0, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                overScroller.fling(getScrollX(),getScrollY(),(int)-xVelocity,0/*(int)-yVelocity*/, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
                 velocityTracker.clear();
             break;
             case MotionEvent.ACTION_POINTER_UP:

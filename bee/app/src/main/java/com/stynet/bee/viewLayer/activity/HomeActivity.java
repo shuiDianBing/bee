@@ -20,6 +20,7 @@ import com.stynet.bee.presenterLayer.HomeVm;
 import com.stynet.bee.HomeBinding;
 import com.stynet.frameset.Printf;
 import com.stynet.frameset.mvpvm.viewLayer.activity.MvpvmActivity;
+import com.stynet.frameset.tool.PhoneUtils;
 import com.stynet.shuidianbing.opticalcharacterrecognition.activity.ScanCodeActivity;
 import com.stynet.widget.FiltrateView;
 import com.stynet.widget.KindView;
@@ -70,6 +71,7 @@ public class HomeActivity extends MvpvmActivity<HomeVm,HomeBinding> {
 
             }
         });
+        //PhoneUtils.getPhoneInfo(this);
     }
     private SurfaceHolder.Callback getCallback(){
         return new SurfaceHolder.Callback() {
