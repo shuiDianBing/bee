@@ -23,6 +23,7 @@
             <!--android:layout_height="match_parent"-->
             <!--android:orientation="horizontal">-->
         <ImageView
+            android:id="@id/image"
             android:layout_width="256dp"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"

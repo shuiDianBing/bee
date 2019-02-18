@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Android - 设置透明状态栏后弹出键盘的时候Toolbar被拉伸或者移出屏幕的问题解决 https://www.jianshu.com/p/1b22a1d2a7b8-->
+<!-- Android - 设置透明状态栏后弹出键盘的时候Toolbar被拉伸或者移出屏幕的问题解决 https://www.jianshu.com/p/1b22a1d2a7b8
+https://www.jianshu.com/p/87795b9cda4b -->
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

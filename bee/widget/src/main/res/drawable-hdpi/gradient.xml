@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Android View — Gradient 渐变 https://www.jianshu.com/p/32d17739d378-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <gradient android:type="sweep" android:angle="0" android:useLevel="false"
+        android:gradientRadius="64dp" android:centerX="0.5" android:centerY="0.5"
+        android:startColor="#ff0000ff" android:centerColor="#ff00ff00"
+        android:endColor="#ffff0000"/>
+</shape>

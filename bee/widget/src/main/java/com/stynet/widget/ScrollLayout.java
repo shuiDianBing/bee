@@ -17,6 +17,7 @@ import android.widget.Scroller;
 
 /**
  * Created by xx shuiDianBing, 2018/09/28-17:13:17:13.Refer to the website: nullptr
+ * 未限制边界的
  * 自定义ViewGroup实现水平滑动 https://blog.csdn.net/deng0zhaotai/article/details/21404589
  * Android view体系简析及自定义滑动ViewGroup的优化 https://www.jianshu.com/p/c1d04960cfa1
  * 自定义ViewGroup实现弹性滑动效果 https://blog.csdn.net/y874961524/article/details/52752169
@@ -158,8 +159,11 @@ public class ScrollLayout extends ViewGroup {
 //                velocityTracker = null;
                 //overScroller.fling(getScrollX(), getScrollY(), Math.abs(xVelocity)> minFlingVelocity ?(int)Math.max(-maxFlingVelocity,Math.min(xVelocity, maxFlingVelocity)):0,
                 //        0, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
+                //超界
                 overScroller.fling(getScrollX(),getScrollY(),(int)-xVelocity,0/*(int)-yVelocity*/, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
                 velocityTracker.clear();
+                //overScroller.fling(getScrollX(),getScrollY(),(int)-xVelocity,-(int)yVelocity,-512,width,-512,height);
+                invalidate();
             break;
             case MotionEvent.ACTION_POINTER_UP:
                 int pointerIndexLeave = event.getActionIndex();
@@ -180,8 +184,27 @@ public class ScrollLayout extends ViewGroup {
         if (overScroller.computeScrollOffset()) {
             scrollTo(overScroller.getCurrX(), overScroller.getCurrY());
             postInvalidate();
+//            int oldX = getScrollX();
+//            int oldY = getScrollY();
+//            int targetX = overScroller.getCurrX();
+//            int targetY = overScroller.getCurrY();
+//            if(oldX != targetX || oldY != targetY)
+//                overScrollBy(targetX - oldX,targetY - oldY,oldX,oldY,width - oldX,0,64,64,false);
         }
     }
+
+//    @Override//适用于了累加状态
+//    protected void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY) {
+//        //super.onOverScrolled(scrollX, scrollY, clampedX, clampedY);
+//        if(!overScroller.isFinished()){
+//            scrollTo(scrollX,scrollY);
+//            onScrollChanged(scrollX,scrollY,getScrollX(),getScrollY());
+////            if(clampedX)
+////                overScroller.springBack(getScrollX(),getScrollY(),0,width - getScrollX(),0,0);
+//        }else
+//            super.scrollTo(scrollX,scrollY);
+//    }
+
     /**
      * onInterceptTouchEvent()用来询问是否要拦截处理。 onTouchEvent()是用来进行处理。
      * <p/>
