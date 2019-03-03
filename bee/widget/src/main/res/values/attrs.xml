@@ -5,6 +5,30 @@
     <attr name="shadowX" format="dimension"/>多行定义要提出来
     <attr name="shadowY" format="dimension"/>多行定义要提出来
     <attr name="shadowColor" format="color"/>多行定义要提出来
+    <attr name="angle" format="integer"/>角度
+    layout
+    <declare-styleable name="scrollLayout">//手势滑动Layout
+        <attr name="angle"/>角度
+    </declare-styleable>
+    <declare-styleable name="bubbleLayout">气泡
+        <attr name="lookAt">
+            <enum name="left"   value="1"/>
+            <enum name="top"    value="2"/>
+            <enum name="right"  value="3"/>
+            <enum name="bottom" value="4"/>
+        </attr>
+        <attr name="lookPosition" format="dimension"/>
+        <attr name="lookWidth"    format="dimension"/>
+        <attr name="lookLength"   format="dimension"/>
+        <attr name="bubbleColor"  format="color"/>
+        <attr name="bubbleRadius" format="dimension"/>
+        <attr name="bubblePadding" format="dimension"/>
+        <attr name="shadowRadius"/>
+        <attr name="shadowX"/>
+        <attr name="shadowY"/>
+        <attr name="shadowColor"/>
+    </declare-styleable>
+    view
     <declare-styleable name="border">带边框的TextView
         <attr name="lineWidth"/>
         <attr name="strokeRadius" format="dimension"/>
@@ -38,29 +62,12 @@
         <attr name="fontColor" format="color"/>
         <attr name="hintFontColor" format="color"/>
     </declare-styleable>
-    <declare-styleable name="bubbleLayout">气泡
-        <attr name="lookAt">
-            <enum name="left"   value="1"/>
-            <enum name="top"    value="2"/>
-            <enum name="right"  value="3"/>
-            <enum name="bottom" value="4"/>
-        </attr>
-        <attr name="lookPosition" format="dimension"/>
-        <attr name="lookWidth"    format="dimension"/>
-        <attr name="lookLength"   format="dimension"/>
-        <attr name="bubbleColor"  format="color"/>
-        <attr name="bubbleRadius" format="dimension"/>
-        <attr name="bubblePadding" format="dimension"/>
-        <attr name="shadowRadius"/>
-        <attr name="shadowX"/>
-        <attr name="shadowY"/>
-        <attr name="shadowColor"/>
-    </declare-styleable>
+
     <declare-styleable name="ephemerisStreamLayout">星历流
         <attr name="element" format="integer"/>元素
         <attr name="elementRadius" format="float"/>元素半径
         <attr name="elementColor" format="color"/>元素颜色
-        <attr name="angle" format="float"/>角度
+        <attr name="angle"/>角度
         <attr name="particleRadius" format="float"/>粒子半径
         <attr name="particleColor" format="color"/>粒子颜色
         <attr name="knownColor" format="color"/>已知进度

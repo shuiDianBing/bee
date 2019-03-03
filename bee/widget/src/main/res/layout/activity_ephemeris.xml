@@ -16,8 +16,7 @@
         android:paddingLeft="4dp"
         android:paddingTop="8dp"
         android:paddingRight="16dp"
-        android:paddingBottom="32dp"
-        attr:angle="0.0">
+        android:paddingBottom="32dp">
         <!--<LinearLayout-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="match_parent"-->

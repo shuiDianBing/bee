@@ -17,7 +17,9 @@ import android.widget.Scroller;
 
 /**
  * Created by xx shuiDianBing, 2018/09/28-17:13:17:13.Refer to the website: nullptr
- * 未限制边界的
+ * 未限制边界的手势滑动layout，
+ * 第一个childView基本摆放
+ * 中心点angle为依据
  * 自定义ViewGroup实现水平滑动 https://blog.csdn.net/deng0zhaotai/article/details/21404589
  * Android view体系简析及自定义滑动ViewGroup的优化 https://www.jianshu.com/p/c1d04960cfa1
  * 自定义ViewGroup实现弹性滑动效果 https://blog.csdn.net/y874961524/article/details/52752169
@@ -69,8 +71,12 @@ public class ScrollLayout extends ViewGroup {
         maxFlingVelocity = configuration.getScaledMaximumFlingVelocity();//最大加速度
         overscrollDistance = configuration.getScaledOverscrollDistance();//用手指拖动超过边缘的最大距离
         overflingDistance = configuration.getScaledOverflingDistance();//滑动超过边缘的最大距离
+        //initAttribute(getContext().obtainStyledAttributes(attrs,R.styleable.scrollLayout,defStyleAttr,defStyleRes));
     }
-    private void initAttribute(@Nullable TypedArray typedArray){ }
+    private void initAttribute(@Nullable TypedArray typedArray){
+        //angle = typedArray.getInt(R.styleable.scrollLayout_angle, 0);
+        typedArray.recycle();
+    }
 
     @Override//自定义View学习笔记之详解onMeasure https://www.jianshu.com/p/1695988095a5
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

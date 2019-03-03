@@ -1,1 +1,1 @@
-include ':app', ':frameset', ':widget', ':opticalCharacterRecognition', ':imageRecognition', ':imageRecognition', ':map'
+include ':app', ':frameset', ':widget', ':opticalCharacterRecognition', ':imageRecognition', ':imageRecognition', ':map', ':network'

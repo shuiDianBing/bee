@@ -108,6 +108,7 @@ dependencies {
     implementation project(':opticalCharacterRecognition')
     implementation project(':widget')
     implementation project(':map')
+    implementation project(':network')
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }
