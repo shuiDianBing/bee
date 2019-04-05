@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.app.AppOpsManagerCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.core.app.AppOpsManagerCompat;
+import androidx.core.content.ContextCompat;
 
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by shuiDianBing on 2018/5/7.
@@ -49,12 +51,12 @@ public class AndroidPermission {
     /**
      * Some privileges permanently disabled, may need to set up in the execute.
      *
-     * @param fragment          {@link android.support.v4.app.Fragment}.
+     * @param fragment          {@link Fragment}.
      * @param deniedPermissions one or more permissions.
      * @return true, other wise is false.
      */
     public static boolean hasAlwaysDeniedPermission(
-            @NonNull android.support.v4.app.Fragment fragment,
+            @NonNull Fragment fragment,
             @NonNull List<String> deniedPermissions) {
         Target target = new SupportFragmentTarget(fragment);
         return !target.shouldShowRationalePermissions(deniedPermissions.toArray(new String[deniedPermissions.size()]));
@@ -103,13 +105,13 @@ public class AndroidPermission {
     /**
      * Get default setting dialog.
      *
-     * @param fragment    {@link android.support.v4.app.Fragment}.
+     * @param fragment    {@link Fragment}.
      * @param requestCode requestCode for {@code startActivityForResult(Intent, int)}.
      * @return {@link SettingDialog}.
      */
     public static
     @NonNull
-    SettingDialog defaultSettingDialog(@NonNull android.support.v4.app.Fragment fragment, int requestCode) {
+    SettingDialog defaultSettingDialog(@NonNull Fragment fragment, int requestCode) {
         return new SettingDialog(fragment.getActivity(), new SettingExecutor(new SupportFragmentTarget(fragment), requestCode));
     }
 
@@ -154,13 +156,13 @@ public class AndroidPermission {
     /**
      * Get define setting dialog setting object.
      *
-     * @param fragment    {@link android.support.v4.app.Fragment}.
+     * @param fragment    {@link Fragment}.
      * @param requestCode requestCode for {@code startActivityForResult(Intent, int)}.
      * @return {@link SettingService}.
      */
     public static
     @NonNull
-    SettingService defineSettingDialog(@NonNull android.support.v4.app.Fragment fragment, int requestCode) {
+    SettingService defineSettingDialog(@NonNull Fragment fragment, int requestCode) {
         return new SettingExecutor(new SupportFragmentTarget(fragment), requestCode);
     }
 
@@ -204,12 +206,12 @@ public class AndroidPermission {
     /**
      * In the Activity.
      *
-     * @param fragment {@link android.support.v4.app.Fragment}.
+     * @param fragment {@link Fragment}.
      * @return {@link Request}.
      */
     public static
     @NonNull
-    RationaleRequest with(@NonNull android.support.v4.app.Fragment fragment) {
+    RationaleRequest with(@NonNull Fragment fragment) {
         return new DefaultRequest(new SupportFragmentTarget(fragment));
     }
 

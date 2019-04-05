@@ -1,8 +1,8 @@
 package com.stynet.frameset.mvpvm.viewLayer.activity;
 
-import android.databinding.ViewDataBinding;
+import androidx.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.stynet.frameset.FrameActivity;
 import com.stynet.frameset.mvpvm.viewModelLayer.MvpvmViewModel;

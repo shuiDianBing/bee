@@ -1,6 +1,6 @@
 package com.stynet.shuidianbing.opticalcharacterrecognition.permission;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 /**
  * Created by shuiDianBing on 2018/5/7.
  */

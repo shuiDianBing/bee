@@ -21,7 +21,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.view.animation.LinearInterpolator;
 
 import com.google.android.gms.maps.GoogleMap;

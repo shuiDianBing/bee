@@ -1,6 +1,6 @@
 package com.stynet.frameset;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by xx on 2018/5/4.

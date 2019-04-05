@@ -2,7 +2,7 @@ package com.stynet.bee.viewLayer;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,8 +12,6 @@ import com.stynet.bee.R;
 import com.stynet.bee.viewLayer.activity.HomeActivity;
 import com.stynet.bee.viewLayer.activity.SigninActivity;
 import com.stynet.frameset.Printf;
-import com.stynet.frameset.storage.SharedXml;
-import com.stynet.frameset.tool.PhoneUtils;
 
 import java.util.concurrent.TimeUnit;
 

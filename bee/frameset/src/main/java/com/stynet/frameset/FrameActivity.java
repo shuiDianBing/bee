@@ -1,6 +1,6 @@
 package com.stynet.frameset;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by xx on 2018/5/4.

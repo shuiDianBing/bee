@@ -2,8 +2,8 @@ package com.stynet.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.support.v4.view.MotionEventCompat;
-import android.support.v4.widget.EdgeEffectCompat;
+import androidx.core.view.MotionEventCompat;
+import androidx.core.widget.EdgeEffectCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;

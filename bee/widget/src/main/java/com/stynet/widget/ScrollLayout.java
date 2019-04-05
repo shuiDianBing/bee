@@ -4,8 +4,8 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.v4.view.VelocityTrackerCompat;
+import androidx.annotation.Nullable;
+import androidx.core.view.VelocityTrackerCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -13,7 +13,6 @@ import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.OverScroller;
-import android.widget.Scroller;
 
 /**
  * Created by xx shuiDianBing, 2018/09/28-17:13:17:13.Refer to the website: nullptr

@@ -10,7 +10,7 @@ import android.location.Criteria;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
-import android.support.annotation.RequiresPermission;
+import androidx.annotation.RequiresPermission;
 import android.util.Log;
 
 import com.stynet.map.R;

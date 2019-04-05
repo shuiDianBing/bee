@@ -7,7 +7,7 @@
         name="signin"
         type="com.stynet.bee.modelLayer.SigninMode"/>
     </data>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">不能在此处设置背景图片，如果设置的话添加模糊效果不起作用
     透明背景APP登录界面 http://www.ooopic.com/pic_18611778.html?_Track=415050b5c7c2bcbde7c3e6
@@ -134,5 +134,5 @@
         app:layout_constraintStart_toEndOf="@+id/textRegister"
         app:layout_constraintTop_toBottomOf="@+id/textSignin"
         app:layout_constraintVertical_bias="0.0" />
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

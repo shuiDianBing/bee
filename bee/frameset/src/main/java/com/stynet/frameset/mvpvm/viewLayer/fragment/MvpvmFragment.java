@@ -1,6 +1,6 @@
 package com.stynet.frameset.mvpvm.viewLayer.fragment;
 
-import android.databinding.ViewDataBinding;
+import androidx.databinding.ViewDataBinding;
 
 import com.stynet.frameset.FrameFragment;
 import com.stynet.frameset.mvpvm.viewModelLayer.MvpvmViewModel;

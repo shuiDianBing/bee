@@ -2,7 +2,7 @@ package com.stynet.widget.helper;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.annotation.DimenRes;
+import androidx.annotation.DimenRes;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
